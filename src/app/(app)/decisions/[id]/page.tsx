@@ -1,9 +1,9 @@
 import { getAuthContext } from "@/server/auth-context";
 import { notFound } from "next/navigation";
 import { getDecisionById, toReviewUrgency } from "@/server/data-access/decisions";
-import { DecisionDetail } from "./_components/DecisionDetail";
-import { CommentSection } from "./_components/CommentSection";
-import { ActivityLog } from "./_components/ActivityLog";
+import { DecisionDetail } from "@/components/decisions/DecisionDetail";
+import { CommentSection } from "@/components/decisions/CommentSection";
+import { ActivityLog } from "@/components/decisions/ActivityLog";
 import type { DecisionDetail as DecisionDetailType, CommentItem, ActivityItem } from "@/types";
 
 interface Props {

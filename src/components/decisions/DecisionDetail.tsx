@@ -1,5 +1,5 @@
-import { StatusBadge } from "@/components/app/StatusBadge";
-import { ReviewUrgencyBadge } from "@/components/app/ReviewUrgencyBadge";
+import { StatusBadge } from "@/components/decisions/StatusBadge";
+import { ReviewUrgencyBadge } from "@/components/review/ReviewUrgencyBadge";
 import { formatDate } from "@/lib/utils";
 import type { DecisionDetail as DecisionDetailType } from "@/types";
 import Link from "next/link";

@@ -1,5 +1,5 @@
 import { getAuthContext } from "@/server/auth-context";
-import { DecisionForm } from "../[id]/_components/DecisionForm";
+import { DecisionForm } from "@/components/decisions/DecisionForm";
 
 export const metadata = { title: "New Decision — Rationale" };
 

@@ -1,7 +1,7 @@
 import { getAuthContext } from "@/server/auth-context";
 import { notFound, redirect } from "next/navigation";
 import { getDecisionById } from "@/server/data-access/decisions";
-import { DecisionForm } from "../_components/DecisionForm";
+import { DecisionForm } from "@/components/decisions/DecisionForm";
 
 interface Props {
   params: Promise<{ id: string }>;

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { AIDraftPanel } from "@/components/app/AIDraftPanel";
+import { AIDraftPanel } from "@/components/ai/AIDraftPanel";
 import { createDecisionAction, updateDecisionAction } from "@/server/actions/decision.actions";
 import { DECISION_STATUS_OPTIONS } from "@/lib/constants";
 import type { DecisionDetail, AIDraft } from "@/types";

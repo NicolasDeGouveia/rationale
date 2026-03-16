@@ -1,4 +1,4 @@
-import { DecisionCard } from "./DecisionCard";
+import { DecisionCard } from "@/components/decisions/DecisionCard";
 import { EmptyState } from "@/components/ui/empty-state";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

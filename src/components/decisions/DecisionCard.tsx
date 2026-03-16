@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { StatusBadge } from "./StatusBadge";
-import { ReviewUrgencyBadge } from "./ReviewUrgencyBadge";
+import { ReviewUrgencyBadge } from "@/components/review/ReviewUrgencyBadge";
 import { formatDate } from "@/lib/utils";
 import type { DecisionSummary } from "@/types";
 

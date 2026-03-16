@@ -1,6 +1,6 @@
 import { getAuthContext } from "@/server/auth-context";
 import { getReviewInboxDecisions } from "@/server/data-access/decisions";
-import { Sidebar } from "@/components/app/Sidebar";
+import { Sidebar } from "@/components/navigation/Sidebar";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { membership } = await getAuthContext();

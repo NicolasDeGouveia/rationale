@@ -1,8 +1,8 @@
 import { getAuthContext } from "@/server/auth-context";
 import { searchDecisions } from "@/server/data-access/decisions";
-import { SearchBar } from "@/components/app/SearchBar";
-import { SearchResultsList } from "@/components/app/SearchResultsList";
-import { DecisionFilters } from "@/components/app/DecisionFilters";
+import { SearchBar } from "@/components/search/SearchBar";
+import { SearchResultsList } from "@/components/search/SearchResultsList";
+import { DecisionFilters } from "@/components/decisions/DecisionFilters";
 
 export const metadata = { title: "Search — Rationale" };
 

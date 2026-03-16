@@ -1,6 +1,6 @@
 import { getAuthContext } from "@/server/auth-context";
 import { getDecisionsByWorkspace } from "@/server/data-access/decisions";
-import { DecisionCard } from "@/components/app/DecisionCard";
+import { DecisionCard } from "@/components/decisions/DecisionCard";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

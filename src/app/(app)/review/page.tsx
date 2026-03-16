@@ -1,6 +1,6 @@
 import { getAuthContext } from "@/server/auth-context";
 import { getReviewInbox } from "@/server/services/review.service";
-import { ReviewInboxView } from "@/components/app/ReviewInboxView";
+import { ReviewInboxView } from "@/components/review/ReviewInboxView";
 
 export const metadata = { title: "Review Inbox — Rationale" };
 

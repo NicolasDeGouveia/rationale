@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { ReviewUrgencyBadge } from "./ReviewUrgencyBadge";
-import { StatusBadge } from "./StatusBadge";
+import { StatusBadge } from "@/components/decisions/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { changeDecisionStatusAction, rescheduleReviewAction } from "@/server/actions/decision.actions";
