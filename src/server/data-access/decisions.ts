@@ -201,3 +201,81 @@ export async function updateDecision(
 export async function deleteDecision(id: string, workspaceId: string) {
   return db.decision.delete({ where: { id, workspaceId } });
 }
+
+export type DashboardStats = {
+  total: number;
+  byStatus: Record<string, number>;
+  overdueCount: number;
+  dueSoonCount: number;
+  missingReviewCount: number;
+  reopenedCount: number;
+  withOwnerPct: number;
+  withReviewDatePct: number;
+  withRationalePct: number;
+  overduePct: number;
+};
+
+export async function getDashboardStats(workspaceId: string): Promise<DashboardStats> {
+  const now = new Date();
+  const soon = new Date(now.getTime() + REVIEW_DUE_SOON_DAYS * 24 * 60 * 60 * 1000);
+
+  const [allDecisions, overdueCount, dueSoonCount, missingReviewCount, reopenedCount] = await Promise.all([
+    db.decision.findMany({
+      where: { workspaceId },
+      select: { status: true, ownerId: true, reviewDate: true, rationale: true },
+    }),
+    db.decision.count({ where: { workspaceId, reviewDate: { lt: now }, status: { notIn: ["ARCHIVED"] } } }),
+    db.decision.count({ where: { workspaceId, reviewDate: { gte: now, lte: soon }, status: { notIn: ["ARCHIVED"] } } }),
+    db.decision.count({ where: { workspaceId, reviewDate: null, status: { notIn: ["ARCHIVED"] } } }),
+    db.decision.count({ where: { workspaceId, status: "REOPENED" } }),
+  ]);
+
+  const total = allDecisions.length;
+  const byStatus: Record<string, number> = { DRAFT: 0, DECIDED: 0, REOPENED: 0, ARCHIVED: 0 };
+  let withOwner = 0;
+  let withReviewDate = 0;
+  let withRationale = 0;
+
+  for (const d of allDecisions) {
+    byStatus[d.status] = (byStatus[d.status] ?? 0) + 1;
+    if (d.ownerId) withOwner++;
+    if (d.reviewDate) withReviewDate++;
+    if (d.rationale) withRationale++;
+  }
+
+  const pct = (n: number) => (total > 0 ? Math.round((n / total) * 100) : 0);
+  const activeTotal = total - (byStatus["ARCHIVED"] ?? 0);
+
+  return {
+    total,
+    byStatus,
+    overdueCount,
+    dueSoonCount,
+    missingReviewCount,
+    reopenedCount,
+    withOwnerPct: pct(withOwner),
+    withReviewDatePct: pct(withReviewDate),
+    withRationalePct: pct(withRationale),
+    overduePct: activeTotal > 0 ? Math.round((overdueCount / activeTotal) * 100) : 0,
+  };
+}
+
+export async function getRecentActivity(workspaceId: string, limit = 8) {
+  const entries = await db.activityEntry.findMany({
+    where: { decision: { workspaceId } },
+    include: {
+      actor: { select: { id: true, name: true } },
+      decision: { select: { id: true, title: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+  });
+  return entries.map((e) => ({
+    id: e.id,
+    actor: e.actor,
+    action: e.action as string,
+    decisionId: e.decision.id,
+    decisionTitle: e.decision.title,
+    createdAt: e.createdAt.toISOString(),
+  }));
+}
