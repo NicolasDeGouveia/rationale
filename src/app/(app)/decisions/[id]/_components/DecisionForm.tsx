@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { AIDraftPanel } from "@/components/app/AIDraftPanel";
 import { createDecisionAction, updateDecisionAction } from "@/server/actions/decision.actions";
+import { DECISION_STATUS_OPTIONS } from "@/lib/constants";
 import type { DecisionDetail, AIDraft } from "@/types";
 
 interface DecisionFormProps {
@@ -16,13 +17,6 @@ interface DecisionFormProps {
   ownerId: string;
   ownerName?: string | null;
 }
-
-const statusOptions = [
-  { value: "DECIDED", label: "Decided" },
-  { value: "DRAFT", label: "Draft" },
-  { value: "REOPENED", label: "Reopened" },
-  { value: "ARCHIVED", label: "Archived" },
-];
 
 export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFormProps) {
   const router = useRouter();
@@ -88,7 +82,7 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
       <Textarea label="Summary" value={summary} onChange={(e) => setSummary(e.target.value)} placeholder="A one-line summary" />
 
       <div className="grid grid-cols-2 gap-4">
-        <Select label="Status" value={status} onChange={(e) => setStatus(e.target.value as DecisionDetail["status"])} options={statusOptions} />
+        <Select label="Status" value={status} onChange={(e) => setStatus(e.target.value as DecisionDetail["status"])} options={DECISION_STATUS_OPTIONS} />
         <Input label="Decision date" type="date" value={decisionDate} onChange={(e) => setDecisionDate(e.target.value)} />
       </div>
 
@@ -99,14 +93,14 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
         <p className="text-sm text-neutral-700 font-medium">{ownerName ?? ownerId}</p>
       </div>
 
-      <Textarea label="Context" value={context} onChange={(e) => setContext(e.target.value)} placeholder="What was the situation that led to this decision?" className="min-h-[100px]" />
+      <Textarea label="Context" value={context} onChange={(e) => setContext(e.target.value)} placeholder="What was the situation that led to this decision?" className="min-h-24" />
 
       <Textarea
         label="Rationale"
         value={rationale}
         onChange={(e) => setRationale(e.target.value)}
         placeholder="Why was this decision made? What factors drove it?"
-        className="min-h-[120px]"
+        className="min-h-32"
       />
 
       {error && <p className="text-sm text-red-600">{error}</p>}

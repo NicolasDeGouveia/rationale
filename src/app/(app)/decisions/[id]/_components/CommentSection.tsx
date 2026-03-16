@@ -73,7 +73,7 @@ export function CommentSection({ decisionId, comments: initialComments, currentU
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Share context, ask questions, or note updates..."
-          className="min-h-[80px]"
+          className="min-h-20"
         />
         {error && <p className="text-xs text-red-600">{error}</p>}
         <Button type="submit" size="sm" loading={pending} disabled={!content.trim()}>

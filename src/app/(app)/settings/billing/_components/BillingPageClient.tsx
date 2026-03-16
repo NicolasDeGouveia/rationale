@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { createCheckoutSessionAction, createBillingPortalSessionAction } from "@/server/actions/billing.actions";
-import { PLANS } from "@/lib/constants";
+import { PLANS, SUBSCRIPTION_STATUS_LABELS } from "@/lib/constants";
 
 interface Subscription {
   status: string;
@@ -17,15 +17,6 @@ interface BillingPageClientProps {
   subscription: Subscription | null;
   isAdmin: boolean;
 }
-
-const STATUS_LABELS: Record<string, { label: string; color: string }> = {
-  ACTIVE: { label: "Active", color: "text-green-700 bg-green-50 border-green-200" },
-  TRIALING: { label: "Trial", color: "text-blue-700 bg-blue-50 border-blue-200" },
-  PAST_DUE: { label: "Past due", color: "text-red-700 bg-red-50 border-red-200" },
-  CANCELED: { label: "Canceled", color: "text-neutral-600 bg-neutral-50 border-neutral-200" },
-  INCOMPLETE: { label: "Incomplete", color: "text-amber-700 bg-amber-50 border-amber-200" },
-  PAUSED: { label: "Paused", color: "text-neutral-600 bg-neutral-50 border-neutral-200" },
-};
 
 export function BillingPageClient({ subscription, isAdmin }: BillingPageClientProps) {
   const [checkoutPending, startCheckout] = useTransition();
@@ -62,9 +53,9 @@ export function BillingPageClient({ subscription, isAdmin }: BillingPageClientPr
               {isActivePaid ? PLANS.pro.description : PLANS.free.description}
             </p>
           </div>
-          {subscription && STATUS_LABELS[subscription.status] && (
-            <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${STATUS_LABELS[subscription.status].color}`}>
-              {STATUS_LABELS[subscription.status].label}
+          {subscription && SUBSCRIPTION_STATUS_LABELS[subscription.status] && (
+            <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${SUBSCRIPTION_STATUS_LABELS[subscription.status].color}`}>
+              {SUBSCRIPTION_STATUS_LABELS[subscription.status].label}
             </span>
           )}
         </div>

@@ -2,13 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-
-const STATUS_OPTIONS = [
-  { value: "DRAFT", label: "Draft" },
-  { value: "DECIDED", label: "Decided" },
-  { value: "REOPENED", label: "Reopened" },
-  { value: "ARCHIVED", label: "Archived" },
-];
+import { cn } from "@/lib/utils";
+import { DECISION_STATUS_OPTIONS } from "@/lib/constants";
 
 interface DecisionFiltersProps {
   initialStatus?: string[];
@@ -88,16 +83,17 @@ export function DecisionFilters({
           <div className="space-y-1">
             <p className="text-xs font-medium text-neutral-500">Status</p>
             <div className="flex flex-wrap gap-1.5">
-              {STATUS_OPTIONS.map((opt) => (
+              {DECISION_STATUS_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
                   onClick={() => toggleStatus(opt.value)}
-                  className={`px-2.5 py-1 text-xs rounded-full border transition-colors ${
+                  className={cn(
+                    "px-2.5 py-1 text-xs rounded-full border transition-colors",
                     statusFilters.includes(opt.value)
                       ? "bg-neutral-900 text-white border-neutral-900"
                       : "bg-white text-neutral-600 border-neutral-200 hover:border-neutral-400"
-                  }`}
+                  )}
                 >
                   {opt.label}
                 </button>

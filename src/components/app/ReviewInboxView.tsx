@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { ReviewInboxCard } from "./ReviewInboxCard";
 import { EmptyState } from "@/components/ui/empty-state";
 import type { ReviewInboxItem } from "@/types";
@@ -23,11 +22,8 @@ function Section({ title, items, onAction }: { title: string; items: ReviewInbox
   );
 }
 
-export function ReviewInboxView({ items: initialItems }: ReviewInboxViewProps) {
-  const [items, setItems] = useState(initialItems);
-
+export function ReviewInboxView({ items }: ReviewInboxViewProps) {
   function refresh() {
-    // Items are server-rendered; trigger a page reload to get fresh data
     window.location.reload();
   }
 
@@ -40,15 +36,15 @@ export function ReviewInboxView({ items: initialItems }: ReviewInboxViewProps) {
     );
   }
 
-  const overdue = items.filter((i) => i.urgency === "overdue");
-  const dueSoon = items.filter((i) => i.urgency === "due_soon");
-  const missing = items.filter((i) => i.urgency === "missing");
+  const overdueItems = items.filter((i) => i.urgency === "overdue");
+  const dueSoonItems = items.filter((i) => i.urgency === "due_soon");
+  const missingItems = items.filter((i) => i.urgency === "missing");
 
   return (
     <div className="space-y-8">
-      <Section title="Overdue" items={overdue} onAction={refresh} />
-      <Section title="Due soon" items={dueSoon} onAction={refresh} />
-      <Section title="Missing review date" items={missing} onAction={refresh} />
+      <Section title="Overdue" items={overdueItems} onAction={refresh} />
+      <Section title="Due soon" items={dueSoonItems} onAction={refresh} />
+      <Section title="Missing review date" items={missingItems} onAction={refresh} />
     </div>
   );
 }

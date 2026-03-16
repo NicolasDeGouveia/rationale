@@ -72,7 +72,7 @@ export function Sidebar({ workspaceName, reviewCount = 0 }: SidebarProps) {
               {item.icon}
               <span className="flex-1">{item.label}</span>
               {showBadge && (
-                <span className="ml-auto text-xs bg-red-100 text-red-700 font-semibold px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center">
+                <span className="ml-auto text-xs bg-red-100 text-red-700 font-semibold px-1.5 py-0.5 rounded-full min-w-5 text-center">
                   {reviewCount > 99 ? "99+" : reviewCount}
                 </span>
               )}

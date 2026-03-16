@@ -1,15 +1,6 @@
 import { formatRelativeDate } from "@/lib/utils";
+import { ACTIVITY_ACTION_LABELS } from "@/lib/constants";
 import type { ActivityItem } from "@/types";
-
-const ACTION_LABELS: Record<ActivityItem["action"], string> = {
-  CREATED: "created this decision",
-  UPDATED: "updated this decision",
-  STATUS_CHANGED: "changed the status",
-  COMMENTED: "added a comment",
-  REVIEW_RESCHEDULED: "rescheduled the review",
-  ARCHIVED: "archived this decision",
-  REOPENED: "reopened this decision",
-};
 
 interface ActivityLogProps {
   activity: ActivityItem[];
@@ -28,7 +19,7 @@ export function ActivityLog({ activity }: ActivityLogProps) {
             <div className="flex-1 min-w-0">
               <span className="font-medium text-neutral-700">{entry.actor.name ?? "Someone"}</span>
               {" "}
-              <span className="text-neutral-500">{ACTION_LABELS[entry.action] ?? entry.action}</span>
+              <span className="text-neutral-500">{ACTIVITY_ACTION_LABELS[entry.action] ?? entry.action}</span>
               {entry.metadata?.status != null && (
                 <span className="ml-1 text-neutral-400">→ {String(entry.metadata.status).toLowerCase()}</span>
               )}

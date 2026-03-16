@@ -71,7 +71,7 @@ export function AIDraftPanel({ onDraftReady }: AIDraftPanelProps) {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="e.g. We discussed migrating to Postgres. Main reasons: better query performance, team familiarity. We ruled out MySQL because of json support..."
-          className="min-h-[120px]"
+          className="min-h-32"
         />
         {error && <p className="text-xs text-red-600">{error}</p>}
         <div className="flex items-center gap-2">
