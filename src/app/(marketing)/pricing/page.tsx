@@ -7,7 +7,7 @@ export const metadata = { title: "Pricing — Rationale" };
 
 export default function PricingPage() {
   return (
-    <main className="bg-white py-20">
+    <main className="py-20">
       <div className="mx-auto max-w-4xl px-6">
         <div className="text-center mb-14">
           <h1 className="text-4xl font-bold text-neutral-900 tracking-tight mb-3">Simple pricing</h1>

@@ -93,8 +93,8 @@ export function AppPreviewSection() {
                   <h3 className="text-xl font-bold text-neutral-900">Decisions</h3>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button className="text-xs text-neutral-600 border border-neutral-200 px-3 py-1.5 rounded-lg">Filter</button>
-                  <button className="text-xs font-medium text-white bg-neutral-900 px-3 py-1.5 rounded-lg">New decision</button>
+                  <button className="cursor-pointer text-xs text-neutral-600 border border-neutral-200 px-3 py-1.5 rounded-lg">Filter</button>
+                  <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 px-3 py-1.5 rounded-lg">New decision</button>
                 </div>
               </div>
 
@@ -145,7 +145,7 @@ export function AppPreviewSection() {
                     <p className="text-xs text-neutral-400 leading-relaxed">
                       - Sales reports friction on Enterprise annual pricing{"\n"}- Finance wants standardization{"\n"}- Concern about discounting flexibility{"\n"}- Review impact after one month
                     </p>
-                    <button className="text-xs border border-neutral-200 rounded-lg px-3 py-1.5 text-neutral-700">Generate draft</button>
+                    <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-3 py-1.5 text-neutral-700">Generate draft</button>
                   </div>
                   <div className="p-4 space-y-3">
                     <p className="text-xs font-semibold text-neutral-500">Suggested decision</p>
@@ -157,8 +157,8 @@ export function AppPreviewSection() {
                       <p className="text-xs text-amber-700">Missing: owner and review date</p>
                     </div>
                     <div className="flex gap-2">
-                      <button className="text-xs font-medium text-white bg-neutral-900 rounded-lg px-3 py-1.5">Save draft</button>
-                      <button className="text-xs border border-neutral-200 rounded-lg px-3 py-1.5 text-neutral-700">Edit</button>
+                      <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 rounded-lg px-3 py-1.5">Save draft</button>
+                      <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-3 py-1.5 text-neutral-700">Edit</button>
                     </div>
                   </div>
                 </div>
@@ -209,7 +209,7 @@ export function AppPreviewSection() {
                     <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Review inbox</p>
                     <p className="text-sm font-bold text-neutral-900">Needs attention</p>
                   </div>
-                  <button className="text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">See all</button>
+                  <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">See all</button>
                 </div>
                 <div className="space-y-2">
                   {reviewItems.map((item) => (
@@ -220,9 +220,9 @@ export function AppPreviewSection() {
                       </div>
                       <p className="text-xs text-neutral-500 leading-relaxed">{item.summary}</p>
                       <div className="flex gap-1.5">
-                        <button className="text-xs font-medium text-white bg-neutral-900 rounded-lg px-2.5 py-1">Review now</button>
-                        <button className="text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Reschedule</button>
-                        <button className="text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Reopen</button>
+                        <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 rounded-lg px-2.5 py-1">Review now</button>
+                        <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Reschedule</button>
+                        <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Reopen</button>
                       </div>
                     </div>
                   ))}
