@@ -1,0 +1,290 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth (Better Auth) ──────────────────────────────────────────────────────
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  name          String?
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions      Session[]
+  accounts      Account[]
+
+  stripeCustomerId  String?   @unique
+  memberships       WorkspaceMembership[]
+  ownedDecisions    Decision[]     @relation("DecisionOwner")
+  comments          Comment[]
+  activityEntries   ActivityEntry[]
+  reminders         Reminder[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@unique([providerId, accountId])
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// ─── Workspace ───────────────────────────────────────────────────────────────
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships  WorkspaceMembership[]
+  decisions    Decision[]
+  subscription Subscription?
+  tags         Tag[]
+}
+
+model WorkspaceMembership {
+  id          String        @id @default(cuid())
+  role        WorkspaceRole @default(MEMBER)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  userId      String
+  workspaceId String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+enum WorkspaceRole {
+  ADMIN
+  MEMBER
+}
+
+// ─── Subscription / Billing ──────────────────────────────────────────────────
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  workspaceId          String             @unique
+  workspace            Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  stripeCustomerId     String             @unique
+  stripeSubscriptionId String?            @unique
+  stripePriceId        String?
+  stripeProductId      String?
+
+  status               SubscriptionStatus @default(TRIALING)
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  trialStart           DateTime?
+  trialEnd             DateTime?
+
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  INCOMPLETE
+  INCOMPLETE_EXPIRED
+  UNPAID
+}
+
+// ─── Decision ────────────────────────────────────────────────────────────────
+
+model Decision {
+  id           String         @id @default(cuid())
+  workspaceId  String
+  workspace    Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  title        String
+  summary      String?
+  context      String?
+  rationale    String?
+
+  status       DecisionStatus @default(DECIDED)
+  ownerId      String
+  owner        User           @relation("DecisionOwner", fields: [ownerId], references: [id])
+  participants String[]
+
+  decisionDate DateTime?
+  reviewDate   DateTime?
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  alternatives DecisionAlternative[]
+  assumptions  DecisionAssumption[]
+  risks        DecisionRisk[]
+  tags         DecisionTag[]
+  links        DecisionLink[]
+  comments     Comment[]
+  activity     ActivityEntry[]
+  reminders    Reminder[]
+}
+
+enum DecisionStatus {
+  DRAFT
+  DECIDED
+  REOPENED
+  ARCHIVED
+}
+
+model DecisionAlternative {
+  id          String   @id @default(cuid())
+  decisionId  String
+  decision    Decision @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  rejected    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model DecisionAssumption {
+  id         String   @id @default(cuid())
+  decisionId String
+  decision   Decision @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  content    String
+  createdAt  DateTime @default(now())
+}
+
+model DecisionRisk {
+  id         String   @id @default(cuid())
+  decisionId String
+  decision   Decision @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  content    String
+  createdAt  DateTime @default(now())
+}
+
+// ─── Tags ────────────────────────────────────────────────────────────────────
+
+model Tag {
+  id          String        @id @default(cuid())
+  workspaceId String
+  workspace   Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name        String
+  decisions   DecisionTag[]
+
+  @@unique([workspaceId, name])
+}
+
+model DecisionTag {
+  decisionId String
+  tagId      String
+  decision   Decision @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([decisionId, tagId])
+}
+
+// ─── Related Links ───────────────────────────────────────────────────────────
+
+model DecisionLink {
+  id         String   @id @default(cuid())
+  decisionId String
+  decision   Decision @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  url        String
+  label      String?
+  createdAt  DateTime @default(now())
+}
+
+// ─── Comments ────────────────────────────────────────────────────────────────
+
+model Comment {
+  id         String   @id @default(cuid())
+  decisionId String
+  decision   Decision @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  authorId   String
+  author     User     @relation(fields: [authorId], references: [id])
+  content    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// ─── Activity Log ────────────────────────────────────────────────────────────
+
+model ActivityEntry {
+  id         String         @id @default(cuid())
+  decisionId String
+  decision   Decision       @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  actorId    String
+  actor      User           @relation(fields: [actorId], references: [id])
+  action     ActivityAction
+  metadata   Json?
+  createdAt  DateTime       @default(now())
+}
+
+enum ActivityAction {
+  CREATED
+  UPDATED
+  STATUS_CHANGED
+  COMMENTED
+  REVIEW_RESCHEDULED
+  ARCHIVED
+  REOPENED
+}
+
+// ─── Reminders ───────────────────────────────────────────────────────────────
+
+model Reminder {
+  id         String         @id @default(cuid())
+  decisionId String
+  decision   Decision       @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User           @relation(fields: [userId], references: [id])
+  dueAt      DateTime
+  status     ReminderStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+}
+
+enum ReminderStatus {
+  PENDING
+  DISMISSED
+  ACTIONED
+}
