@@ -1,25 +1,11 @@
 "use client";
 
-import { ReviewInboxCard } from "./ReviewInboxCard";
+import { ReviewInboxSection } from "./ReviewInboxSection";
 import { EmptyState } from "@/components/ui/empty-state";
 import type { ReviewInboxItem } from "@/types";
 
 interface ReviewInboxViewProps {
   items: ReviewInboxItem[];
-}
-
-function Section({ title, items, onAction }: { title: string; items: ReviewInboxItem[]; onAction: () => void }) {
-  if (items.length === 0) return null;
-  return (
-    <div className="space-y-3">
-      <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">{title} ({items.length})</h2>
-      <div className="space-y-2">
-        {items.map((item) => (
-          <ReviewInboxCard key={item.decision.id} item={item} onAction={onAction} />
-        ))}
-      </div>
-    </div>
-  );
 }
 
 export function ReviewInboxView({ items }: ReviewInboxViewProps) {
@@ -42,9 +28,9 @@ export function ReviewInboxView({ items }: ReviewInboxViewProps) {
 
   return (
     <div className="space-y-8">
-      <Section title="Overdue" items={overdueItems} onAction={refresh} />
-      <Section title="Due soon" items={dueSoonItems} onAction={refresh} />
-      <Section title="Missing review date" items={missingItems} onAction={refresh} />
+      <ReviewInboxSection title="Overdue" items={overdueItems} onAction={refresh} />
+      <ReviewInboxSection title="Due soon" items={dueSoonItems} onAction={refresh} />
+      <ReviewInboxSection title="Missing review date" items={missingItems} onAction={refresh} />
     </div>
   );
 }

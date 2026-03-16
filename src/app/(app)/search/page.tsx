@@ -1,7 +1,4 @@
-import { auth } from "@/server/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { getWorkspaceForUser } from "@/server/data-access/workspaces";
+import { getAuthContext } from "@/server/auth-context";
 import { searchDecisions } from "@/server/data-access/decisions";
 import { SearchBar } from "@/components/app/SearchBar";
 import { SearchResultsList } from "@/components/app/SearchResultsList";
@@ -23,11 +20,7 @@ interface Props {
 
 export default async function SearchPage({ searchParams }: Props) {
   const sp = await searchParams;
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/login");
-
-  const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) redirect("/onboarding");
+  const { membership } = await getAuthContext();
 
   const query = sp.q?.trim();
   const status = sp.status ? (Array.isArray(sp.status) ? sp.status : [sp.status]) : undefined;

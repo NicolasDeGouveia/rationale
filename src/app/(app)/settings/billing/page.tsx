@@ -1,7 +1,4 @@
-import { auth } from "@/server/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { getWorkspaceForUser } from "@/server/data-access/workspaces";
+import { getAuthContext } from "@/server/auth-context";
 import { getSubscriptionByWorkspace } from "@/server/data-access/subscriptions";
 import { BillingPageClient } from "./_components/BillingPageClient";
 
@@ -13,11 +10,7 @@ interface Props {
 
 export default async function BillingPage({ searchParams }: Props) {
   const sp = await searchParams;
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/login");
-
-  const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) redirect("/onboarding");
+  const { membership } = await getAuthContext();
 
   const subscription = await getSubscriptionByWorkspace(membership.workspaceId);
 

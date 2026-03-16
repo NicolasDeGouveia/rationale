@@ -1,7 +1,5 @@
-import { auth } from "@/server/auth";
-import { headers } from "next/headers";
-import { redirect, notFound } from "next/navigation";
-import { getWorkspaceForUser } from "@/server/data-access/workspaces";
+import { getAuthContext } from "@/server/auth-context";
+import { notFound, redirect } from "next/navigation";
 import { getDecisionById } from "@/server/data-access/decisions";
 import { DecisionForm } from "../_components/DecisionForm";
 
@@ -11,16 +9,12 @@ interface Props {
 
 export default async function EditDecisionPage({ params }: Props) {
   const { id } = await params;
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/login");
-
-  const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) redirect("/onboarding");
+  const { user, membership } = await getAuthContext();
 
   const decision = await getDecisionById(id, membership.workspaceId);
   if (!decision) notFound();
 
-  const canEdit = decision.ownerId === session.user.id || membership.role === "ADMIN";
+  const canEdit = decision.ownerId === user.id || membership.role === "ADMIN";
   if (!canEdit) redirect(`/decisions/${id}`);
 
   return (

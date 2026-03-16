@@ -4,19 +4,11 @@ import { formatDate } from "@/lib/utils";
 import type { DecisionDetail as DecisionDetailType } from "@/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { DetailSection } from "./DetailSection";
 
 interface DecisionDetailProps {
   decision: DecisionDetailType;
   canEdit: boolean;
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-2">
-      <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">{title}</p>
-      <div>{children}</div>
-    </div>
-  );
 }
 
 export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
@@ -65,19 +57,19 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
 
       {/* Rationale — most prominent section */}
       {decision.rationale && (
-        <Section title="Rationale">
+        <DetailSection title="Rationale">
           <p className="text-base text-neutral-800 leading-relaxed whitespace-pre-wrap">{decision.rationale}</p>
-        </Section>
+        </DetailSection>
       )}
 
       {decision.context && (
-        <Section title="Context">
+        <DetailSection title="Context">
           <p className="text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap">{decision.context}</p>
-        </Section>
+        </DetailSection>
       )}
 
       {decision.alternatives.length > 0 && (
-        <Section title="Alternatives considered">
+        <DetailSection title="Alternatives considered">
           <ul className="space-y-2">
             {decision.alternatives.map((a) => (
               <li key={a.id} className="flex items-start gap-2 text-sm">
@@ -90,11 +82,11 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
               </li>
             ))}
           </ul>
-        </Section>
+        </DetailSection>
       )}
 
       {decision.assumptions.length > 0 && (
-        <Section title="Assumptions">
+        <DetailSection title="Assumptions">
           <ul className="space-y-1">
             {decision.assumptions.map((a) => (
               <li key={a.id} className="text-sm text-neutral-700 flex gap-2">
@@ -102,11 +94,11 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
               </li>
             ))}
           </ul>
-        </Section>
+        </DetailSection>
       )}
 
       {decision.risks.length > 0 && (
-        <Section title="Risks">
+        <DetailSection title="Risks">
           <ul className="space-y-1">
             {decision.risks.map((r) => (
               <li key={r.id} className="text-sm text-neutral-700 flex gap-2">
@@ -114,11 +106,11 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
               </li>
             ))}
           </ul>
-        </Section>
+        </DetailSection>
       )}
 
       {decision.links.length > 0 && (
-        <Section title="Related links">
+        <DetailSection title="Related links">
           <ul className="space-y-1">
             {decision.links.map((l) => (
               <li key={l.id}>
@@ -128,7 +120,7 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
               </li>
             ))}
           </ul>
-        </Section>
+        </DetailSection>
       )}
 
       {decision.tags.length > 0 && (

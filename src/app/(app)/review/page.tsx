@@ -1,18 +1,11 @@
-import { auth } from "@/server/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { getWorkspaceForUser } from "@/server/data-access/workspaces";
+import { getAuthContext } from "@/server/auth-context";
 import { getReviewInbox } from "@/server/services/review.service";
 import { ReviewInboxView } from "@/components/app/ReviewInboxView";
 
 export const metadata = { title: "Review Inbox — Rationale" };
 
 export default async function ReviewPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/login");
-
-  const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) redirect("/onboarding");
+  const { membership } = await getAuthContext();
 
   const items = await getReviewInbox(membership.workspaceId);
 

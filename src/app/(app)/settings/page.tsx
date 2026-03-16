@@ -1,7 +1,4 @@
-import { auth } from "@/server/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { getWorkspaceForUser } from "@/server/data-access/workspaces";
+import { getAuthContext } from "@/server/auth-context";
 import { getWorkspaceMembers } from "@/server/data-access/workspaces";
 import { Avatar } from "@/components/ui/avatar";
 import Link from "next/link";
@@ -10,11 +7,7 @@ import { Button } from "@/components/ui/button";
 export const metadata = { title: "Settings — Rationale" };
 
 export default async function SettingsPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/login");
-
-  const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) redirect("/onboarding");
+  const { user, membership } = await getAuthContext();
 
   const members = await getWorkspaceMembers(membership.workspaceId);
   const isAdmin = membership.role === "ADMIN";
@@ -82,10 +75,10 @@ export default async function SettingsPage() {
         <div className="rounded-lg border border-neutral-200 bg-white p-5 space-y-2">
           <h2 className="text-sm font-semibold text-neutral-700">Account</h2>
           <div className="flex items-center gap-3">
-            <Avatar name={session.user.name} size="md" />
+            <Avatar name={user.name} size="md" />
             <div>
-              <p className="text-sm font-medium text-neutral-900">{session.user.name ?? "—"}</p>
-              <p className="text-xs text-neutral-400">{session.user.email}</p>
+              <p className="text-sm font-medium text-neutral-900">{user.name ?? "—"}</p>
+              <p className="text-xs text-neutral-400">{user.email}</p>
             </div>
           </div>
         </div>

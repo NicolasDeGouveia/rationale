@@ -1,16 +1,9 @@
-import { auth } from "@/server/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { getWorkspaceForUser } from "@/server/data-access/workspaces";
+import { getAuthContext } from "@/server/auth-context";
 import { getReviewInboxDecisions } from "@/server/data-access/decisions";
 import { Sidebar } from "@/components/app/Sidebar";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/login");
-
-  const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) redirect("/onboarding");
+  const { membership } = await getAuthContext();
 
   const reviewItems = await getReviewInboxDecisions(membership.workspaceId);
   const reviewCount = reviewItems.filter((d) => {

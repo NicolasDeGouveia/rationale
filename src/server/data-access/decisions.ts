@@ -5,7 +5,7 @@ import type { DecisionSummary } from "@/types";
 import { REVIEW_DUE_SOON_DAYS } from "@/lib/constants";
 import { upsertTag } from "./tags";
 
-function computeUrgency(reviewDate: Date | null): DecisionSummary["reviewUrgency"] {
+export function toReviewUrgency(reviewDate: Date | null): DecisionSummary["reviewUrgency"] {
   if (!reviewDate) return "missing";
   const now = new Date();
   const diff = Math.round((reviewDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
@@ -30,7 +30,7 @@ function toDecisionSummary(d: {
     decisionDate: d.decisionDate?.toISOString() ?? null,
     reviewDate: d.reviewDate?.toISOString() ?? null,
     tags: d.tags.map((t) => t.tag.name),
-    reviewUrgency: computeUrgency(d.reviewDate),
+    reviewUrgency: toReviewUrgency(d.reviewDate),
     createdAt: d.createdAt.toISOString(),
     updatedAt: d.updatedAt.toISOString(),
   };

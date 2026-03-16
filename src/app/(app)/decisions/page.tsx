@@ -1,7 +1,4 @@
-import { auth } from "@/server/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { getWorkspaceForUser } from "@/server/data-access/workspaces";
+import { getAuthContext } from "@/server/auth-context";
 import { getDecisionsByWorkspace } from "@/server/data-access/decisions";
 import { DecisionCard } from "@/components/app/DecisionCard";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -11,11 +8,7 @@ import Link from "next/link";
 export const metadata = { title: "Decisions — Rationale" };
 
 export default async function DecisionsPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/login");
-
-  const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) redirect("/onboarding");
+  const { membership } = await getAuthContext();
 
   const decisions = await getDecisionsByWorkspace(membership.workspaceId);
 
