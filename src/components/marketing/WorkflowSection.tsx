@@ -2,37 +2,42 @@ const steps = [
   {
     number: "01",
     title: "Capture",
-    description:
-      "Create a structured decision record with title, rationale, context, owner, and review date. Or paste meeting notes and let AI draft it for you to review.",
+    description: "Create a decision manually or generate a draft from meeting notes.",
   },
   {
     number: "02",
     title: "Retrieve",
-    description:
-      "Search your team's full decision history in seconds. Find the rationale behind any choice without digging through Slack or old docs.",
+    description: "Search by topic, owner, status or date to instantly recover the original rationale.",
   },
   {
     number: "03",
     title: "Review",
-    description:
-      "Get notified when a decision needs revisiting. Reopen, update, or archive decisions as context changes — so your records stay trustworthy.",
+    description: "Get reminders when assumptions should be revisited or decisions become stale.",
   },
 ];
 
 export function WorkflowSection() {
   return (
-    <section className="bg-white py-20">
+    <section id="workflow" className="py-20">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl font-bold text-neutral-900 tracking-tight">
-            A simple loop your team will actually use
+        <div className="mb-12">
+          <span className="inline-block text-xs font-medium text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full mb-4">
+            How it works
+          </span>
+          <h2 className="text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight">
+            A workflow built around team decisions.
           </h2>
+          <p className="mt-4 text-neutral-500 max-w-2xl text-base leading-relaxed">
+            The product is designed around three moments: capture the decision, retrieve the context later, and review it before it becomes outdated.
+          </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-5">
           {steps.map((step) => (
-            <div key={step.number} className="flex flex-col gap-4">
-              <span className="text-3xl font-bold text-neutral-200">{step.number}</span>
-              <h3 className="text-lg font-semibold text-neutral-900">{step.title}</h3>
+            <div key={step.number} className="bg-white rounded-2xl border border-neutral-200 p-6 space-y-4">
+              <div className="h-10 w-10 rounded-xl bg-neutral-900 flex items-center justify-center">
+                <span className="text-xs font-bold text-white">{step.number}</span>
+              </div>
+              <h3 className="text-base font-bold text-neutral-900">{step.title}</h3>
               <p className="text-sm text-neutral-500 leading-relaxed">{step.description}</p>
             </div>
           ))}
