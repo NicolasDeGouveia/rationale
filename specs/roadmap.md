@@ -44,7 +44,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-002 · Database & ORM Setup
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/data-model.md](./001-rationale-mvp/data-model.md)
 **Acceptance**:
 - Prisma configured with PostgreSQL
@@ -55,7 +55,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-003 · Authentication (Better Auth)
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — US6
 **Dependencies**: F-002
 **Acceptance**:
@@ -68,7 +68,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-004 · Workspace Creation & Onboarding
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — US6
 **Dependencies**: F-003
 **Acceptance**:
@@ -80,7 +80,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-005 · Landing Page
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — FR-001–004
 **Acceptance**:
 - Hero section communicates value proposition without scrolling
@@ -92,7 +92,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-006 · App Shell & Navigation
-**Status**: `planned`
+**Status**: `done`
 **Dependencies**: F-003, F-004
 **Acceptance**:
 - Authenticated app has a persistent sidebar with navigation
@@ -103,7 +103,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-007 · Decision CRUD
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — US1
 **Dependencies**: F-002, F-003, F-004
 **Acceptance**:
@@ -116,7 +116,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-008 · Decision List View
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — FR-016
 **Dependencies**: F-007
 **Acceptance**:
@@ -127,7 +127,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-009 · Decision Detail Page
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — FR-011
 **Dependencies**: F-007
 **Acceptance**:
@@ -139,7 +139,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-010 · Search & Filtering
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — US2
 **Dependencies**: F-007
 **Acceptance**:
@@ -151,7 +151,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-011 · Review Inbox
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — US3
 **Dependencies**: F-007
 **Acceptance**:
@@ -162,7 +162,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-012 · Comments
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — FR-015
 **Dependencies**: F-009
 **Acceptance**:
@@ -173,7 +173,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-013 · Activity Log
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — FR-014
 **Dependencies**: F-007
 **Acceptance**:
@@ -183,7 +183,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-014 · AI-Assisted Draft
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — US4
 **Dependencies**: F-007
 **Acceptance**:
@@ -195,7 +195,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-015 · Billing & Subscription (Stripe)
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — US5
 **Dependencies**: F-003, F-004
 **Acceptance**:
@@ -208,7 +208,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-016 · Settings Pages
-**Status**: `planned`
+**Status**: `done`
 **Dependencies**: F-003, F-004, F-015
 **Acceptance**:
 - Settings page shows workspace info and member list
@@ -218,7 +218,7 @@ When implementing, update the status field inline. Do not create a parallel syst
 ---
 
 ### F-017 · Pricing Page
-**Status**: `planned`
+**Status**: `done`
 **Spec**: [001-rationale-mvp/spec.md](./001-rationale-mvp/spec.md) — FR-001
 **Dependencies**: F-005
 **Acceptance**:
