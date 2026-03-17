@@ -44,6 +44,8 @@ function buildContextFromDraft(draft: AIDraft): string {
   return parts.join("\n\n");
 }
 
+const today = new Date().toISOString().slice(0, 10);
+
 export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -179,7 +181,11 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
         <Input
           id="reviewDate"
           type="date"
-          {...register("reviewDate")}
+          min={today}
+          error={errors.reviewDate?.message}
+          {...register("reviewDate", {
+            validate: (v) => !v || v >= today || "Review date cannot be in the past",
+          })}
         />
         <p className="text-xs text-neutral-400">When should this be revisited? Overdue decisions surface in the Review Inbox.</p>
       </div>
