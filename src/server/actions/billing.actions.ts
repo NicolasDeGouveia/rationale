@@ -6,22 +6,27 @@ import { redirect } from "next/navigation";
 import { getWorkspaceForUser } from "@/server/data-access/workspaces";
 import { createCheckoutSession, createBillingPortalSession } from "@/server/services/billing.service";
 
-export async function createCheckoutSessionAction(input: { priceId: string }) {
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+async function getSessionAndWorkspace() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) return { success: false, error: "Not authenticated" } as const;
-
+  if (!session?.user) return null;
   const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) return { success: false, error: "No workspace" } as const;
+  if (!membership) return null;
+  return { user: session.user, membership };
+}
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+export async function createCheckoutSessionAction(input: { priceId: string }) {
+  const ctx = await getSessionAndWorkspace();
+  if (!ctx) return { success: false, error: "Not authenticated" } as const;
 
   try {
     const url = await createCheckoutSession(
-      membership.workspaceId,
-      session.user.id,
+      ctx.membership.workspaceId,
+      ctx.user.id,
       input.priceId,
-      `${baseUrl}/settings/billing?success=1`,
-      `${baseUrl}/settings/billing?canceled=1`
+      `${BASE_URL}/settings/billing?success=1`,
+      `${BASE_URL}/settings/billing?canceled=1`
     );
     redirect(url);
   } catch (err) {
@@ -32,19 +37,14 @@ export async function createCheckoutSessionAction(input: { priceId: string }) {
 }
 
 export async function createBillingPortalSessionAction() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) return { success: false, error: "Not authenticated" } as const;
-
-  const membership = await getWorkspaceForUser(session.user.id);
-  if (!membership) return { success: false, error: "No workspace" } as const;
-
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const ctx = await getSessionAndWorkspace();
+  if (!ctx) return { success: false, error: "Not authenticated" } as const;
 
   try {
     const url = await createBillingPortalSession(
-      membership.workspaceId,
-      session.user.id,
-      `${baseUrl}/settings/billing`
+      ctx.membership.workspaceId,
+      ctx.user.id,
+      `${BASE_URL}/settings/billing`
     );
     redirect(url);
   } catch (err) {

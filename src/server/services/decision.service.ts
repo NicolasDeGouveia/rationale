@@ -1,5 +1,5 @@
 import "server-only";
-import { createDecision, updateDecision, deleteDecision } from "@/server/data-access/decisions";
+import { createDecision, updateDecision, deleteDecision, getDecisionById } from "@/server/data-access/decisions";
 import { createActivityEntry } from "@/server/data-access/activity";
 import type { DecisionCreateInput } from "@/lib/validations/decision.schema";
 
@@ -23,7 +23,7 @@ export async function updateDecisionWithActivity(
 }
 
 export async function deleteDecisionWithCheck(decisionId: string, workspaceId: string, actorId: string, actorRole: string) {
-  const decision = await import("@/server/data-access/decisions").then((m) => m.getDecisionById(decisionId, workspaceId));
+  const decision = await getDecisionById(decisionId, workspaceId);
   if (!decision) throw new Error("Decision not found");
   if (decision.ownerId !== actorId && actorRole !== "ADMIN") {
     throw new Error("Only the owner or an admin can delete this decision");

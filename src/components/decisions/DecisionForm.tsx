@@ -20,6 +20,30 @@ interface DecisionFormProps {
   ownerName?: string | null;
 }
 
+function buildFormData(data: DecisionFormFields, ownerId: string): FormData {
+  const formData = new FormData();
+  formData.set("title", data.title);
+  formData.set("summary", data.summary);
+  formData.set("context", data.context);
+  formData.set("rationale", data.rationale);
+  formData.set("status", data.status);
+  formData.set("ownerId", ownerId);
+  if (data.decisionDate) formData.set("decisionDate", data.decisionDate);
+  if (data.reviewDate) formData.set("reviewDate", data.reviewDate);
+  return formData;
+}
+
+function buildContextFromDraft(draft: AIDraft): string {
+  const parts: string[] = [];
+  if (draft.assumptions.length > 0) {
+    parts.push(`Assumptions:\n${draft.assumptions.map((a) => `- ${a}`).join("\n")}`);
+  }
+  if (draft.risks.length > 0) {
+    parts.push(`Risks:\n${draft.risks.map((r) => `- ${r}`).join("\n")}`);
+  }
+  return parts.join("\n\n");
+}
+
 export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -43,37 +67,34 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
     },
   });
 
+  async function handleCreate(data: DecisionFormFields) {
+    const result = await createDecisionAction(buildFormData(data, ownerId));
+    if (!result.success) { setError("root", { message: result.error }); return; }
+    router.push(`/decisions/${result.data.decisionId}`);
+  }
+
+  async function handleUpdate(data: DecisionFormFields) {
+    if (!decision?.id) return;
+    const result = await updateDecisionAction({
+      decisionId: decision.id,
+      title: data.title,
+      summary: data.summary,
+      context: data.context,
+      rationale: data.rationale,
+      status: data.status,
+      ownerId,
+      decisionDate: data.decisionDate || undefined,
+      reviewDate: data.reviewDate || undefined,
+      previousStatus: decision.status,
+    });
+    if (!result.success) { setError("root", { message: result.error }); return; }
+    router.push(`/decisions/${result.data.decisionId}`);
+  }
+
   function onSubmit(data: DecisionFormFields) {
     startTransition(async () => {
-      if (mode === "create") {
-        const fd = new FormData();
-        fd.set("title", data.title);
-        fd.set("summary", data.summary);
-        fd.set("context", data.context);
-        fd.set("rationale", data.rationale);
-        fd.set("status", data.status);
-        fd.set("ownerId", ownerId);
-        if (data.decisionDate) fd.set("decisionDate", data.decisionDate);
-        if (data.reviewDate) fd.set("reviewDate", data.reviewDate);
-        const result = await createDecisionAction(fd);
-        if (!result.success) { setError("root", { message: result.error }); return; }
-        router.push(`/decisions/${result.data.decisionId}`);
-      } else if (decision?.id) {
-        const result = await updateDecisionAction({
-          decisionId: decision.id,
-          title: data.title,
-          summary: data.summary,
-          context: data.context,
-          rationale: data.rationale,
-          status: data.status,
-          ownerId,
-          decisionDate: data.decisionDate || undefined,
-          reviewDate: data.reviewDate || undefined,
-          previousStatus: decision.status,
-        });
-        if (!result.success) { setError("root", { message: result.error }); return; }
-        router.push(`/decisions/${result.data.decisionId}`);
-      }
+      if (mode === "create") await handleCreate(data);
+      else await handleUpdate(data);
     });
   }
 
@@ -82,9 +103,8 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
     if (!getValues("summary")) setValue("summary", draft.summary);
     if (!getValues("rationale")) setValue("rationale", draft.rationale);
     if (!getValues("context")) {
-      const assumptionsText = draft.assumptions.length > 0 ? `Assumptions:\n${draft.assumptions.map((a) => `- ${a}`).join("\n")}` : "";
-      const risksText = draft.risks.length > 0 ? `\n\nRisks:\n${draft.risks.map((r) => `- ${r}`).join("\n")}` : "";
-      if (assumptionsText || risksText) setValue("context", (assumptionsText + risksText).trim());
+      const context = buildContextFromDraft(draft);
+      if (context) setValue("context", context);
     }
   }
 

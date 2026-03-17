@@ -28,3 +28,6 @@
 - F-001 Project Setup: `done`
 - F-002 to F-017: `planned`
 - Next step: `/speckit.tasks` to generate tasks.md
+
+## Known Bugs / Future Fixes
+- **Avant mise en prod** : changer l'expéditeur Resend de `onboarding@resend.dev` vers `Rationale <noreply@rationale.app>` dans `src/server/auth.ts` (emailVerification.sendVerificationEmail). Nécessite de vérifier le domaine `rationale.app` dans le dashboard Resend → Domains.
