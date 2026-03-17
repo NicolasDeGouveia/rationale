@@ -24,9 +24,13 @@ export default function SignupPage() {
     setLoading(false);
     if (result.error) {
       setError(result.error.message ?? "Could not create account");
-    } else {
-      setVerified(true);
+      return;
     }
+    await authClient.sendVerificationEmail({
+      email,
+      callbackURL: "/login?verified=1",
+    });
+    setVerified(true);
   }
 
   if (verified) {

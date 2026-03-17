@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,17 @@ import { Card, CardBody } from "@/components/ui/card";
 import { APP_NAME } from "@/lib/constants";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<Card><CardBody /></Card>}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const verified = searchParams.get("verified") === "1";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,6 +42,11 @@ export default function LoginPage() {
   return (
     <Card>
       <CardBody>
+        {verified && (
+          <div className="mb-4 p-3 rounded-lg bg-green-50 border border-green-200 text-sm text-green-700 text-center">
+            Email verified. Sign in to continue.
+          </div>
+        )}
         <div className="mb-6 text-center">
           <p className="text-base font-semibold text-neutral-900">{APP_NAME}</p>
           <p className="text-sm text-neutral-500 mt-1">Sign in to your account</p>
