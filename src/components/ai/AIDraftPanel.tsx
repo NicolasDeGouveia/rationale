@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Spinner } from "@/components/ui/spinner";
 import { generateDecisionDraftAction } from "@/server/actions/ai-draft.actions";
-import type { AIDraft } from "@/types";
+import type { AIDraft, AIDraftFormFields } from "@/types";
 
 interface AIDraftPanelProps {
   onDraftReady: (draft: AIDraft) => void;
@@ -13,23 +14,35 @@ interface AIDraftPanelProps {
 
 export function AIDraftPanel({ onDraftReady }: AIDraftPanelProps) {
   const [open, setOpen] = useState(false);
-  const [notes, setNotes] = useState("");
-  const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
 
-  function handleGenerate(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
+  const {
+    register,
+    handleSubmit,
+    setError,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<AIDraftFormFields>({ defaultValues: { notes: "" } });
+
+  const notes = watch("notes");
+
+  function onSubmit({ notes }: AIDraftFormFields) {
     startTransition(async () => {
       const result = await generateDecisionDraftAction({ notes });
       if (!result.success) {
-        setError(result.error);
+        setError("root", { message: result.error });
         return;
       }
       onDraftReady(result.data);
       setOpen(false);
-      setNotes("");
+      reset();
     });
+  }
+
+  function handleClose() {
+    setOpen(false);
+    reset();
   }
 
   if (!open) {
@@ -56,7 +69,7 @@ export function AIDraftPanel({ onDraftReady }: AIDraftPanelProps) {
         <p className="text-sm font-semibold text-neutral-800">Draft from notes</p>
         <button
           type="button"
-          onClick={() => { setOpen(false); setNotes(""); setError(""); }}
+          onClick={handleClose}
           className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors"
         >
           Cancel
@@ -65,17 +78,16 @@ export function AIDraftPanel({ onDraftReady }: AIDraftPanelProps) {
       <p className="text-xs text-neutral-500">
         Paste your raw notes below. The AI will suggest a structured decision draft — you remain in full control before saving.
       </p>
-      <form onSubmit={handleGenerate} className="space-y-3">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <Textarea
           label="Notes"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
           placeholder="e.g. We discussed migrating to Postgres. Main reasons: better query performance, team familiarity. We ruled out MySQL because of json support..."
           className="min-h-32"
+          error={errors.root?.message}
+          {...register("notes", { minLength: { value: 10, message: "Notes must be at least 10 characters" } })}
         />
-        {error && <p className="text-xs text-red-600">{error}</p>}
         <div className="flex items-center gap-2">
-          <Button type="submit" size="sm" disabled={notes.trim().length < 10 || pending}>
+          <Button type="submit" size="sm" disabled={!notes || notes.trim().length < 10 || pending}>
             {pending ? <><Spinner className="w-3.5 h-3.5 mr-1.5" /> Generating…</> : "Generate draft"}
           </Button>
           <p className="text-xs text-neutral-400">AI suggestions will pre-fill the form fields below.</p>

@@ -2,12 +2,13 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 import { ReviewUrgencyBadge } from "./ReviewUrgencyBadge";
 import { StatusBadge } from "@/components/decisions/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { changeDecisionStatusAction, rescheduleReviewAction } from "@/server/actions/decision.actions";
-import type { ReviewInboxItem } from "@/types";
+import type { ReviewInboxItem, RescheduleFormFields } from "@/types";
 
 interface ReviewInboxCardProps {
   item: ReviewInboxItem;
@@ -17,15 +18,21 @@ interface ReviewInboxCardProps {
 export function ReviewInboxCard({ item, onAction }: ReviewInboxCardProps) {
   const { decision, urgency, daysDelta } = item;
   const [showReschedule, setShowReschedule] = useState(false);
-  const [newDate, setNewDate] = useState("");
+  const [actionError, setActionError] = useState("");
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<RescheduleFormFields>();
 
   function handleReopen() {
     startTransition(async () => {
       const result = await changeDecisionStatusAction({ decisionId: decision.id, status: "REOPENED" });
       if (result.success) onAction();
-      else setError(result.error);
+      else setActionError(result.error);
     });
   }
 
@@ -33,17 +40,20 @@ export function ReviewInboxCard({ item, onAction }: ReviewInboxCardProps) {
     startTransition(async () => {
       const result = await changeDecisionStatusAction({ decisionId: decision.id, status: "ARCHIVED" });
       if (result.success) onAction();
-      else setError(result.error);
+      else setActionError(result.error);
     });
   }
 
-  function handleReschedule(e: React.FormEvent) {
-    e.preventDefault();
-    if (!newDate) return;
+  function onReschedule({ reviewDate }: RescheduleFormFields) {
     startTransition(async () => {
-      const result = await rescheduleReviewAction({ decisionId: decision.id, reviewDate: newDate });
-      if (result.success) { setShowReschedule(false); onAction(); }
-      else setError(result.error);
+      const result = await rescheduleReviewAction({ decisionId: decision.id, reviewDate });
+      if (result.success) {
+        setShowReschedule(false);
+        reset();
+        onAction();
+      } else {
+        setActionError(result.error);
+      }
     });
   }
 
@@ -78,7 +88,7 @@ export function ReviewInboxCard({ item, onAction }: ReviewInboxCardProps) {
               Reopen
             </Button>
           )}
-          <Button size="sm" variant="ghost" onClick={() => setShowReschedule((v) => !v)} loading={false}>
+          <Button type="button" size="sm" variant="ghost" onClick={() => setShowReschedule((v) => !v)}>
             Reschedule
           </Button>
           <Button size="sm" variant="ghost" onClick={handleArchive} loading={pending}>
@@ -88,20 +98,19 @@ export function ReviewInboxCard({ item, onAction }: ReviewInboxCardProps) {
       </div>
 
       {showReschedule && (
-        <form onSubmit={handleReschedule} className="flex items-center gap-2 pt-1">
+        <form onSubmit={handleSubmit(onReschedule)} className="flex items-center gap-2 pt-1">
           <input
             type="date"
-            value={newDate}
-            onChange={(e) => setNewDate(e.target.value)}
             className="text-xs border border-neutral-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-            required
+            {...register("reviewDate", { required: true })}
           />
+          {errors.reviewDate && <p className="text-xs text-red-600">Date required</p>}
           <Button type="submit" size="sm" loading={pending}>Confirm</Button>
-          <Button type="button" size="sm" variant="ghost" onClick={() => setShowReschedule(false)}>Cancel</Button>
+          <Button type="button" size="sm" variant="ghost" onClick={() => { setShowReschedule(false); reset(); }}>Cancel</Button>
         </form>
       )}
 
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {actionError && <p className="text-xs text-red-600">{actionError}</p>}
     </div>
   );
 }

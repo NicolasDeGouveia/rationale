@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 import { addCommentAction } from "@/server/actions/comment.actions";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar } from "@/components/ui/avatar";
 import { formatRelativeDate } from "@/lib/utils";
-import type { CommentItem } from "@/types";
+import type { CommentItem, CommentFormFields } from "@/types";
 
 interface CommentSectionProps {
   decisionId: string;
@@ -16,19 +17,24 @@ interface CommentSectionProps {
 
 export function CommentSection({ decisionId, comments: initialComments, currentUserId }: CommentSectionProps) {
   const [comments, setComments] = useState(initialComments);
-  const [content, setContent] = useState("");
-  const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!content.trim()) return;
-    setError("");
+  const {
+    register,
+    handleSubmit,
+    setError,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<CommentFormFields>({ defaultValues: { content: "" } });
 
+  const content = watch("content");
+
+  function onSubmit({ content }: CommentFormFields) {
     startTransition(async () => {
       const result = await addCommentAction({ decisionId, content: content.trim() });
       if (!result.success) {
-        setError(result.error);
+        setError("root", { message: result.error });
         return;
       }
       setComments((prev) => [
@@ -40,7 +46,7 @@ export function CommentSection({ decisionId, comments: initialComments, currentU
           createdAt: new Date().toISOString(),
         },
       ]);
-      setContent("");
+      reset();
     });
   }
 
@@ -67,16 +73,16 @@ export function CommentSection({ decisionId, comments: initialComments, currentU
         </ul>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-2 pt-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 pt-2">
         <Textarea
           label="Add a comment"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
           placeholder="Share context, ask questions, or note updates..."
           className="min-h-20"
+          error={errors.content?.message}
+          {...register("content", { required: "Comment cannot be empty" })}
         />
-        {error && <p className="text-xs text-red-600">{error}</p>}
-        <Button type="submit" size="sm" loading={pending} disabled={!content.trim()}>
+        {errors.root && <p className="text-xs text-red-600">{errors.root.message}</p>}
+        <Button type="submit" size="sm" loading={pending} disabled={!content?.trim()}>
           Post comment
         </Button>
       </form>
