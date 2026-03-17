@@ -26,7 +26,7 @@ export default async function DecisionDetailPage({ params }: Props) {
     decisionDate: raw.decisionDate?.toISOString() ?? null,
     reviewDate: raw.reviewDate?.toISOString() ?? null,
     tags: raw.tags.map((t) => t.tag.name),
-    reviewUrgency: toReviewUrgency(raw.reviewDate),
+    reviewUrgency: toReviewUrgency(raw.reviewDate, raw.status),
     createdAt: raw.createdAt.toISOString(),
     updatedAt: raw.updatedAt.toISOString(),
     context: raw.context,
