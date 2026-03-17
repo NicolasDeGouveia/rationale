@@ -73,26 +73,26 @@ export function ReviewInboxCard({ item, onAction }: ReviewInboxCardProps) {
           )}
         </div>
         <div className="text-right shrink-0">
-          <p className="text-xs text-neutral-400">Owner</p>
+          <p className="text-xs text-neutral-400">Responsable</p>
           <p className="text-xs font-medium text-neutral-700">{decision.owner.name ?? "—"}</p>
         </div>
       </div>
 
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-neutral-400">
-          Review date: <span className="text-neutral-600">{formatDate(decision.reviewDate)}</span>
+          Date de révision : <span className="text-neutral-600">{formatDate(decision.reviewDate)}</span>
         </p>
         <div className="flex items-center gap-2">
           {decision.status !== "REOPENED" && (
             <Button size="sm" variant="secondary" onClick={handleReopen} loading={pending}>
-              Reopen
+              Rouvrir
             </Button>
           )}
           <Button type="button" size="sm" variant="ghost" onClick={() => setShowReschedule((v) => !v)}>
-            Reschedule
+            Replanifier
           </Button>
           <Button size="sm" variant="ghost" onClick={handleArchive} loading={pending}>
-            Archive
+            Archiver
           </Button>
         </div>
       </div>
@@ -104,9 +104,9 @@ export function ReviewInboxCard({ item, onAction }: ReviewInboxCardProps) {
             className="text-xs border border-neutral-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-neutral-900"
             {...register("reviewDate", { required: true })}
           />
-          {errors.reviewDate && <p className="text-xs text-red-600">Date required</p>}
-          <Button type="submit" size="sm" loading={pending}>Confirm</Button>
-          <Button type="button" size="sm" variant="ghost" onClick={() => { setShowReschedule(false); reset(); }}>Cancel</Button>
+          {errors.reviewDate && <p className="text-xs text-red-600">Date requise</p>}
+          <Button type="submit" size="sm" loading={pending}>Confirmer</Button>
+          <Button type="button" size="sm" variant="ghost" onClick={() => { setShowReschedule(false); reset(); }}>Annuler</Button>
         </form>
       )}
 

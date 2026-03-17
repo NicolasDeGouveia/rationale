@@ -37,9 +37,9 @@ export function WelcomeModal({ show }: WelcomeModalProps) {
         <div className="px-6 pt-6 pb-4">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-1">Welcome to Rationale</p>
+              <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-1">Bienvenue sur Rationale</p>
               <h2 id="welcome-title" className="text-lg font-semibold text-neutral-900 leading-snug">
-                Don&apos;t lose the why behind your team&apos;s decisions.
+                Ne perdez plus le pourquoi derrière les décisions de votre équipe.
               </h2>
             </div>
             <button
@@ -57,17 +57,17 @@ export function WelcomeModal({ show }: WelcomeModalProps) {
         {/* Body */}
         <div className="px-6 pb-5 space-y-4">
           <p className="text-sm text-neutral-600 leading-relaxed">
-            Rationale is a structured record for decisions that matter — the ones that shape your product, your team, or your architecture. Not every task belongs here.
+            Rationale est un registre structuré pour les décisions qui comptent — celles qui façonnent votre produit, votre équipe ou votre architecture. Tout n&apos;a pas sa place ici.
           </p>
 
           <div className="rounded-lg bg-neutral-50 border border-neutral-200 p-4 space-y-2">
-            <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">A good decision record answers</p>
+            <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">Une bonne décision répond à</p>
             <ul className="space-y-1.5">
               {[
-                ["What was decided", "The choice made, not the task assigned"],
-                ["Why", "The reasoning, trade-offs, and alternatives ruled out"],
-                ["Who owns it", "The person accountable for monitoring outcomes"],
-                ["When to revisit", "A date to check if the decision still holds"],
+                ["Ce qui a été décidé", "Le choix effectué, pas la tâche assignée"],
+                ["Pourquoi", "Le raisonnement, les compromis et les alternatives écartées"],
+                ["Qui en est responsable", "La personne chargée de surveiller les résultats"],
+                ["Quand réévaluer", "Une date pour vérifier si la décision tient toujours"],
               ].map(([label, desc]) => (
                 <li key={label} className="flex items-start gap-2 text-sm">
                   <span className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-neutral-200 flex items-center justify-center">
@@ -85,23 +85,23 @@ export function WelcomeModal({ show }: WelcomeModalProps) {
           </div>
 
           <p className="text-xs text-neutral-400 leading-relaxed">
-            Good candidates: architecture choices, product direction changes, process decisions, key hiring calls. Not a fit: individual tasks, meeting notes, or implementation details.
+            Bons candidats : choix d&apos;architecture, orientations produit, décisions de processus, recrutements clés. Pas adapté : tâches individuelles, notes de réunion ou détails d&apos;implémentation.
           </p>
         </div>
 
         {/* Actions */}
         <div className="px-6 pb-6 flex flex-col gap-2">
           <Link href="/decisions/new" onClick={dismiss}>
-            <Button className="w-full">Create first decision</Button>
+            <Button className="w-full">Créer la première décision</Button>
           </Link>
           <Link href="/decisions/sample" onClick={dismiss}>
-            <Button variant="secondary" className="w-full">View sample decision</Button>
+            <Button variant="secondary" className="w-full">Voir un exemple de décision</Button>
           </Link>
           <button
             onClick={dismiss}
             className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors py-1"
           >
-            Skip for now
+            Passer pour l&apos;instant
           </button>
         </div>
       </div>

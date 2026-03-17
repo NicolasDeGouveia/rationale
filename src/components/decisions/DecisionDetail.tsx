@@ -30,7 +30,7 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
         </div>
         {canEdit && (
           <Link href={`/decisions/${decision.id}/edit`}>
-            <Button variant="secondary" size="sm">Edit</Button>
+            <Button variant="secondary" size="sm">Modifier</Button>
           </Link>
         )}
       </div>
@@ -38,38 +38,38 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
       {/* Key metadata — always visible */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-lg bg-neutral-50 border border-neutral-200">
         <div>
-          <p className="text-xs text-neutral-400 mb-0.5">Owner</p>
+          <p className="text-xs text-neutral-400 mb-0.5">Responsable</p>
           <p className="text-sm font-medium text-neutral-900">{decision.owner.name ?? "—"}</p>
         </div>
         <div>
-          <p className="text-xs text-neutral-400 mb-0.5">Status</p>
+          <p className="text-xs text-neutral-400 mb-0.5">Statut</p>
           <StatusBadge status={decision.status} />
         </div>
         <div>
-          <p className="text-xs text-neutral-400 mb-0.5">Decided on</p>
+          <p className="text-xs text-neutral-400 mb-0.5">Décidé le</p>
           <p className="text-sm text-neutral-700">{formatDate(decision.decisionDate)}</p>
         </div>
         <div>
-          <p className="text-xs text-neutral-400 mb-0.5">Review date</p>
+          <p className="text-xs text-neutral-400 mb-0.5">Date de révision</p>
           <p className="text-sm text-neutral-700">{formatDate(decision.reviewDate)}</p>
         </div>
       </div>
 
       {/* Rationale — most prominent section */}
       {decision.rationale && (
-        <DetailSection title="Rationale">
+        <DetailSection title="Justification">
           <p className="text-base text-neutral-800 leading-relaxed whitespace-pre-wrap">{decision.rationale}</p>
         </DetailSection>
       )}
 
       {decision.context && (
-        <DetailSection title="Context">
+        <DetailSection title="Contexte">
           <p className="text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap">{decision.context}</p>
         </DetailSection>
       )}
 
       {decision.alternatives.length > 0 && (
-        <DetailSection title="Alternatives considered">
+        <DetailSection title="Alternatives envisagées">
           <ul className="space-y-2">
             {decision.alternatives.map((a) => (
               <li key={a.id} className="flex items-start gap-2 text-sm">
@@ -77,7 +77,7 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
                 <div>
                   <span className="font-medium text-neutral-800">{a.title}</span>
                   {a.description && <p className="text-neutral-500 mt-0.5">{a.description}</p>}
-                  {a.rejected && <span className="ml-2 text-xs text-neutral-400">(rejected)</span>}
+                  {a.rejected && <span className="ml-2 text-xs text-neutral-400">(rejeté)</span>}
                 </div>
               </li>
             ))}
@@ -86,7 +86,7 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
       )}
 
       {decision.assumptions.length > 0 && (
-        <DetailSection title="Assumptions">
+        <DetailSection title="Hypothèses">
           <ul className="space-y-1">
             {decision.assumptions.map((a) => (
               <li key={a.id} className="text-sm text-neutral-700 flex gap-2">
@@ -98,7 +98,7 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
       )}
 
       {decision.risks.length > 0 && (
-        <DetailSection title="Risks">
+        <DetailSection title="Risques">
           <ul className="space-y-1">
             {decision.risks.map((r) => (
               <li key={r.id} className="text-sm text-neutral-700 flex gap-2">
@@ -110,7 +110,7 @@ export function DecisionDetail({ decision, canEdit }: DecisionDetailProps) {
       )}
 
       {decision.links.length > 0 && (
-        <DetailSection title="Related links">
+        <DetailSection title="Liens associés">
           <ul className="space-y-1">
             {decision.links.map((l) => (
               <li key={l.id}>

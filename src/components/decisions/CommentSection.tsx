@@ -52,10 +52,10 @@ export function CommentSection({ decisionId, comments: initialComments, currentU
 
   return (
     <div className="space-y-4">
-      <h2 className="text-sm font-semibold text-neutral-400 uppercase tracking-wide">Comments</h2>
+      <h2 className="text-sm font-semibold text-neutral-400 uppercase tracking-wide">Commentaires</h2>
 
       {comments.length === 0 ? (
-        <p className="text-sm text-neutral-400 italic">No comments yet.</p>
+        <p className="text-sm text-neutral-400 italic">Aucun commentaire pour le moment.</p>
       ) : (
         <ul className="space-y-4">
           {comments.map((c) => (
@@ -75,15 +75,15 @@ export function CommentSection({ decisionId, comments: initialComments, currentU
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 pt-2">
         <Textarea
-          label="Add a comment"
-          placeholder="Share context, ask questions, or note updates..."
+          label="Ajouter un commentaire"
+          placeholder="Partagez du contexte, posez des questions ou notez des mises à jour..."
           className="min-h-20"
           error={errors.content?.message}
-          {...register("content", { required: "Comment cannot be empty" })}
+          {...register("content", { required: "Le commentaire ne peut pas être vide" })}
         />
         {errors.root && <p className="text-xs text-red-600">{errors.root.message}</p>}
         <Button type="submit" size="sm" loading={pending} disabled={!content?.trim()}>
-          Post comment
+          Publier
         </Button>
       </form>
     </div>

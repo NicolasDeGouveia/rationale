@@ -42,7 +42,7 @@ export function SearchBar({ initialQuery = "" }: SearchBarProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleNavigate()}
-          placeholder="Search decisions..."
+          placeholder="Rechercher des décisions..."
           className="w-full pl-9 pr-4 py-2 text-sm bg-neutral-100 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:bg-white transition-colors"
         />
         <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,7 +58,7 @@ export function SearchBar({ initialQuery = "" }: SearchBarProps) {
         type="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search by title, rationale, context..."
+        placeholder="Rechercher par titre, justification, contexte..."
         autoFocus
         className="w-full pl-9 pr-20 py-2.5 text-sm bg-white border border-neutral-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-colors"
       />
@@ -69,7 +69,7 @@ export function SearchBar({ initialQuery = "" }: SearchBarProps) {
         type="submit"
         className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-medium bg-neutral-900 text-white rounded hover:bg-neutral-700 transition-colors"
       >
-        Search
+        Rechercher
       </button>
     </form>
   );

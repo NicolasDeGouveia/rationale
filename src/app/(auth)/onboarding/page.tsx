@@ -33,21 +33,21 @@ export default function OnboardingPage() {
     <Card>
       <CardBody>
         <div className="mb-6">
-          <p className="text-base font-semibold text-neutral-900">Create your workspace</p>
+          <p className="text-base font-semibold text-neutral-900">Créez votre espace de travail</p>
           <p className="text-sm text-neutral-500 mt-1">
-            Your workspace is where your team&apos;s decisions live.
+            Votre espace de travail est l&apos;endroit où vivent les décisions de votre équipe.
           </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
-            label="Workspace name"
+            label="Nom de l'espace de travail"
             type="text"
             placeholder="Acme Inc."
             error={errors.name?.message}
-            {...register("name", { required: "Workspace name is required" })}
+            {...register("name", { required: "Le nom de l'espace de travail est requis" })}
           />
           {errors.root && <p className="text-xs text-red-600">{errors.root.message}</p>}
-          <Button type="submit" loading={isSubmitting} className="w-full">Create workspace</Button>
+          <Button type="submit" loading={isSubmitting} className="w-full">Créer l&apos;espace de travail</Button>
         </form>
       </CardBody>
     </Card>

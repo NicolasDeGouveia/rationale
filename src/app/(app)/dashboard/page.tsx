@@ -10,7 +10,7 @@ import { WelcomeModal } from "@/components/app/WelcomeModal";
 import { formatDate, cn } from "@/lib/utils";
 import { DECISION_STATUS_LABELS, ACTIVITY_ACTION_LABELS } from "@/lib/constants";
 
-export const metadata = { title: "Dashboard — Rationale" };
+export const metadata = { title: "Tableau de bord — Rationale" };
 
 export default async function DashboardPage() {
   const { user, membership } = await getAuthContext();
@@ -39,15 +39,15 @@ export default async function DashboardPage() {
           <div>
             <h1 className="text-xl font-semibold text-slate-900">{membership.workspace.name}</h1>
             <p className="text-sm text-slate-500 mt-0.5">
-              Welcome back, {user.name ?? user.email}
+              Bon retour, {user.name ?? user.email}
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <Link href="/search">
-              <Button variant="secondary" size="sm">Search decisions</Button>
+              <Button variant="secondary" size="sm">Rechercher</Button>
             </Link>
             <Link href="/decisions/new">
-              <Button size="sm">New decision</Button>
+              <Button size="sm">Nouvelle décision</Button>
             </Link>
           </div>
         </div>
@@ -60,19 +60,19 @@ export default async function DashboardPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h2 className="text-base font-semibold text-slate-900 mb-1">Your decision memory starts here</h2>
+            <h2 className="text-base font-semibold text-slate-900 mb-1">La mémoire de vos décisions commence ici</h2>
             <p className="text-sm text-slate-500 mb-2 max-w-sm mx-auto">
-              Capture a decision your team recently made — what was decided, why, who owns it, and when to revisit it.
+              Capturez une décision récente de votre équipe — ce qui a été décidé, pourquoi, qui en est responsable, et quand la réévaluer.
             </p>
             <p className="text-xs text-slate-400 mb-6 max-w-xs mx-auto">
-              Not every task belongs here. Rationale is for decisions that matter: architecture choices, product direction, process changes, hiring calls.
+              Tout n&apos;a pas sa place ici. Rationale est fait pour les décisions qui comptent : choix d&apos;architecture, orientations produit, changements de processus, décisions de recrutement.
             </p>
             <div className="flex flex-col items-center gap-3">
               <Link href="/decisions/new">
-                <Button>Create first decision</Button>
+                <Button>Créer la première décision</Button>
               </Link>
               <Link href="/decisions/sample" className="text-xs text-slate-500 hover:text-slate-700 underline underline-offset-2">
-                See what a good decision record looks like
+                Voir à quoi ressemble une bonne décision
               </Link>
             </div>
           </div>
@@ -87,11 +87,11 @@ export default async function DashboardPage() {
                     <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-amber-700 text-xs font-bold">
                       {attentionCount > 9 ? "9+" : attentionCount}
                     </span>
-                    Needs attention
+                    Nécessite votre attention
                   </h2>
                   {reviewItems.length > 4 && (
                     <Link href="/review" className="text-xs text-slate-500 hover:text-slate-800 transition-colors">
-                      View all {reviewItems.length} →
+                      Voir tout ({reviewItems.length}) →
                     </Link>
                   )}
                 </div>
@@ -137,9 +137,9 @@ export default async function DashboardPage() {
               {/* Recent decisions — spans 2 cols */}
               <section className="lg:col-span-2 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-semibold text-slate-900">Recent decisions</h2>
+                  <h2 className="text-sm font-semibold text-slate-900">Décisions récentes</h2>
                   <Link href="/decisions" className="text-xs text-slate-500 hover:text-slate-800 transition-colors">
-                    View all {decisions.length} →
+                    Voir tout ({decisions.length}) →
                   </Link>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
@@ -178,7 +178,7 @@ export default async function DashboardPage() {
 
                 {/* Status distribution */}
                 <div className="rounded-2xl border border-slate-200 bg-white p-5">
-                  <h2 className="text-sm font-semibold text-slate-900 mb-4">By status</h2>
+                  <h2 className="text-sm font-semibold text-slate-900 mb-4">Par statut</h2>
                   <div className="space-y-2.5">
                     {(["DECIDED", "DRAFT", "REOPENED", "ARCHIVED"] as const).map((status) => {
                       const count = stats.byStatus[status] ?? 0;
@@ -207,19 +207,19 @@ export default async function DashboardPage() {
                   </div>
                   <div className="mt-4 pt-4 border-t border-slate-100">
                     <p className="text-xs text-slate-500">
-                      {stats.total} total decision{stats.total !== 1 ? "s" : ""}
+                      {stats.total} décision{stats.total !== 1 ? "s" : ""} au total
                     </p>
                   </div>
                 </div>
 
                 {/* Health metrics */}
                 <div className="rounded-2xl border border-slate-200 bg-white p-5">
-                  <h2 className="text-sm font-semibold text-slate-900 mb-4">Decision health</h2>
+                  <h2 className="text-sm font-semibold text-slate-900 mb-4">Santé des décisions</h2>
                   <div className="space-y-3">
-                    <HealthMetric label="Have an owner" value={stats.withOwnerPct} />
-                    <HealthMetric label="Have a review date" value={stats.withReviewDatePct} />
-                    <HealthMetric label="Have rationale" value={stats.withRationalePct} />
-                    <HealthMetric label="Overdue (active)" value={100 - stats.overduePct} invert />
+                    <HealthMetric label="Ont un responsable" value={stats.withOwnerPct} />
+                    <HealthMetric label="Ont une date de révision" value={stats.withReviewDatePct} />
+                    <HealthMetric label="Ont une justification" value={stats.withRationalePct} />
+                    <HealthMetric label="En retard (actives)" value={100 - stats.overduePct} invert />
                   </div>
                 </div>
 
@@ -238,13 +238,13 @@ export default async function DashboardPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                       </svg>
                     </div>
-                    <span className="text-sm font-semibold text-slate-900">Search decisions</span>
+                    <span className="text-sm font-semibold text-slate-900">Rechercher des décisions</span>
                   </div>
                   <p className="text-xs text-slate-500 leading-relaxed">
-                    Find any past decision by title, rationale, context, or tags.
+                    Retrouvez n&apos;importe quelle décision par titre, justification, contexte ou tags.
                   </p>
                   <div className="mt-4 flex items-center text-xs text-slate-400 gap-1 group-hover:text-slate-600 transition-colors">
-                    <span>Open search</span>
+                    <span>Ouvrir la recherche</span>
                     <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
@@ -254,10 +254,10 @@ export default async function DashboardPage() {
 
               {/* Activity feed */}
               <div className="lg:col-span-2">
-                <h2 className="text-sm font-semibold text-slate-900 mb-3">Recent activity</h2>
+                <h2 className="text-sm font-semibold text-slate-900 mb-3">Activité récente</h2>
                 {activity.length === 0 ? (
                   <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center text-xs text-slate-400">
-                    No activity yet
+                    Aucune activité pour le moment
                   </div>
                 ) : (
                   <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">

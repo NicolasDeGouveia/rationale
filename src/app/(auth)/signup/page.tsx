@@ -35,10 +35,10 @@ export default function SignupPage() {
       <Card>
         <CardBody>
           <div className="text-center space-y-2">
-            <p className="text-base font-semibold text-neutral-900">Check your inbox</p>
+            <p className="text-base font-semibold text-neutral-900">Vérifiez votre boîte mail</p>
             <p className="text-sm text-neutral-500">
-              We sent a verification link to <span className="font-medium text-neutral-700">{verifiedEmail}</span>.
-              Click the link to activate your account.
+              Nous avons envoyé un lien de vérification à <span className="font-medium text-neutral-700">{verifiedEmail}</span>.
+              Cliquez sur le lien pour activer votre compte.
             </p>
           </div>
         </CardBody>
@@ -51,37 +51,37 @@ export default function SignupPage() {
       <CardBody>
         <div className="mb-6 text-center">
           <p className="text-base font-semibold text-neutral-900">{APP_NAME}</p>
-          <p className="text-sm text-neutral-500 mt-1">Create your account</p>
+          <p className="text-sm text-neutral-500 mt-1">Créez votre compte</p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
-            label="Name"
+            label="Nom"
             type="text"
             autoComplete="name"
             error={errors.name?.message}
-            {...register("name", { required: "Name is required" })}
+            {...register("name", { required: "Le nom est requis" })}
           />
           <Input
-            label="Email"
+            label="E-mail"
             type="email"
             autoComplete="email"
             error={errors.email?.message}
-            {...register("email", { required: "Email is required" })}
+            {...register("email", { required: "L'e-mail est requis" })}
           />
           <Input
-            label="Password"
+            label="Mot de passe"
             type="password"
             autoComplete="new-password"
-            helperText="At least 8 characters"
+            helperText="Au moins 8 caractères"
             error={errors.password?.message}
-            {...register("password", { required: "Password is required", minLength: { value: 8, message: "At least 8 characters" } })}
+            {...register("password", { required: "Le mot de passe est requis", minLength: { value: 8, message: "Au moins 8 caractères" } })}
           />
           {errors.root && <p className="text-xs text-red-600">{errors.root.message}</p>}
-          <Button type="submit" loading={isSubmitting} className="w-full">Create account</Button>
+          <Button type="submit" loading={isSubmitting} className="w-full">Créer un compte</Button>
         </form>
         <p className="mt-4 text-center text-xs text-neutral-500">
-          Already have an account?{" "}
-          <Link href="/login" className="font-medium text-neutral-900 hover:underline">Sign in</Link>
+          Déjà un compte ?{" "}
+          <Link href="/login" className="font-medium text-neutral-900 hover:underline">Se connecter</Link>
         </p>
       </CardBody>
     </Card>

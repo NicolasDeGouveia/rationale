@@ -46,7 +46,7 @@ export function BillingPageClient({ subscription, isAdmin, proPriceId }: Billing
       <div className="rounded-lg border border-neutral-200 bg-white p-5 space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs text-neutral-400 mb-0.5">Current plan</p>
+            <p className="text-xs text-neutral-400 mb-0.5">Plan actuel</p>
             <p className="text-base font-semibold text-neutral-900">
               {isActivePaid ? PLANS.pro.name : PLANS.free.name}
             </p>
@@ -64,14 +64,14 @@ export function BillingPageClient({ subscription, isAdmin, proPriceId }: Billing
         {subscription?.currentPeriodEnd && isActivePaid && (
           <p className="text-xs text-neutral-400">
             {subscription.cancelAtPeriodEnd
-              ? `Cancels on ${formatDate(subscription.currentPeriodEnd)}`
-              : `Renews on ${formatDate(subscription.currentPeriodEnd)}`}
+              ? `Se termine le ${formatDate(subscription.currentPeriodEnd)}`
+              : `Renouvellement le ${formatDate(subscription.currentPeriodEnd)}`}
           </p>
         )}
 
         {subscription?.status === "PAST_DUE" && (
           <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
-            Your last payment failed. Please update your payment method to continue your subscription.
+            Votre dernier paiement a échoué. Veuillez mettre à jour votre moyen de paiement pour continuer votre abonnement.
           </div>
         )}
 
@@ -79,17 +79,17 @@ export function BillingPageClient({ subscription, isAdmin, proPriceId }: Billing
           <div className="pt-1 flex gap-2">
             {!isActivePaid ? (
               <Button onClick={handleUpgrade} loading={checkoutPending} size="sm">
-                Upgrade to Pro
+                Passer à Pro
               </Button>
             ) : (
               <Button onClick={handleManageBilling} loading={portalPending} variant="secondary" size="sm">
-                Manage billing
+                Gérer la facturation
               </Button>
             )}
           </div>
         )}
         {!isAdmin && (
-          <p className="text-xs text-neutral-400">Only workspace admins can manage billing.</p>
+          <p className="text-xs text-neutral-400">Seuls les administrateurs de l&apos;espace de travail peuvent gérer la facturation.</p>
         )}
       </div>
 

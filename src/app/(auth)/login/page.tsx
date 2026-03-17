@@ -45,38 +45,38 @@ function LoginForm() {
       <CardBody>
         {verified && (
           <div className="mb-4 p-3 rounded-lg bg-green-50 border border-green-200 text-sm text-green-700 text-center">
-            Email verified. Sign in to continue.
+            E-mail vérifié. Connectez-vous pour continuer.
           </div>
         )}
         <div className="mb-6 text-center">
           <p className="text-base font-semibold text-neutral-900">{APP_NAME}</p>
-          <p className="text-sm text-neutral-500 mt-1">Sign in to your account</p>
+          <p className="text-sm text-neutral-500 mt-1">Connectez-vous à votre compte</p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
-            label="Email"
+            label="E-mail"
             type="email"
             autoComplete="email"
             error={errors.email?.message}
-            {...register("email", { required: "Email is required" })}
+            {...register("email", { required: "L'e-mail est requis" })}
           />
           <Input
-            label="Password"
+            label="Mot de passe"
             type="password"
             autoComplete="current-password"
             error={errors.password?.message}
-            {...register("password", { required: "Password is required" })}
+            {...register("password", { required: "Le mot de passe est requis" })}
           />
           {errors.root && <p className="text-xs text-red-600">{errors.root.message}</p>}
-          <Button type="submit" loading={isSubmitting} className="w-full">Sign in</Button>
+          <Button type="submit" loading={isSubmitting} className="w-full">Se connecter</Button>
         </form>
         <div className="mt-4 text-center space-y-2">
           <Link href="/reset-password" className="text-xs text-neutral-500 hover:text-neutral-700">
-            Forgot your password?
+            Mot de passe oublié ?
           </Link>
           <p className="text-xs text-neutral-500">
-            No account?{" "}
-            <Link href="/signup" className="font-medium text-neutral-900 hover:underline">Sign up</Link>
+            Pas encore de compte ?{" "}
+            <Link href="/signup" className="font-medium text-neutral-900 hover:underline">S&apos;inscrire</Link>
           </p>
         </div>
       </CardBody>

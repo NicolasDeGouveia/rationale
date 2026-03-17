@@ -14,11 +14,11 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { href: "/dashboard", label: "Dashboard", icon: NAV_ICONS.dashboard },
-  { href: "/decisions", label: "Decisions", icon: NAV_ICONS.decisions },
-  { href: "/review", label: "Review", icon: NAV_ICONS.review },
-  { href: "/search", label: "Search", icon: NAV_ICONS.search },
-  { href: "/settings", label: "Settings", icon: NAV_ICONS.settings },
+  { href: "/dashboard", label: "Tableau de bord", icon: NAV_ICONS.dashboard },
+  { href: "/decisions", label: "Décisions", icon: NAV_ICONS.decisions },
+  { href: "/review", label: "Révision", icon: NAV_ICONS.review },
+  { href: "/search", label: "Recherche", icon: NAV_ICONS.search },
+  { href: "/settings", label: "Paramètres", icon: NAV_ICONS.settings },
 ];
 
 interface SidebarProps {
@@ -74,7 +74,7 @@ export function Sidebar({ workspaceName, reviewCount = 0 }: SidebarProps) {
         className="flex items-center gap-2 px-2 py-1.5 text-xs text-neutral-400 hover:text-neutral-600 transition-colors rounded-md hover:bg-neutral-50 mt-2"
       >
         {NAV_ICONS.signOut}
-        Sign out
+        Se déconnecter
       </button>
     </aside>
   );

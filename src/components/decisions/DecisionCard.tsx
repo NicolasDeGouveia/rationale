@@ -33,7 +33,7 @@ export function DecisionCard({ decision }: DecisionCardProps) {
           <p className="text-xs text-neutral-500">{decision.owner.name ?? "—"}</p>
           {decision.reviewDate && (
             <p className="text-xs text-neutral-400 mt-0.5">
-              Review {formatDate(decision.reviewDate)}
+              Révision {formatDate(decision.reviewDate)}
             </p>
           )}
         </div>

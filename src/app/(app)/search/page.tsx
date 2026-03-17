@@ -4,7 +4,7 @@ import { SearchBar } from "@/components/search/SearchBar";
 import { SearchResultsList } from "@/components/search/SearchResultsList";
 import { DecisionFilters } from "@/components/decisions/DecisionFilters";
 
-export const metadata = { title: "Search — Rationale" };
+export const metadata = { title: "Recherche — Rationale" };
 
 interface Props {
   searchParams: Promise<{
@@ -41,8 +41,8 @@ export default async function SearchPage({ searchParams }: Props) {
   return (
     <div className="p-8">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-neutral-900">Search</h1>
-        <p className="text-sm text-neutral-500 mt-1">Find past decisions by keyword, status, or tag.</p>
+        <h1 className="text-xl font-semibold text-neutral-900">Recherche</h1>
+        <p className="text-sm text-neutral-500 mt-1">Retrouvez des décisions passées par mot-clé, statut ou tag.</p>
       </div>
       <div className="space-y-4">
         <SearchBar initialQuery={query ?? ""} />

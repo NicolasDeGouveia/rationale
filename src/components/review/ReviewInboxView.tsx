@@ -16,8 +16,8 @@ export function ReviewInboxView({ items }: ReviewInboxViewProps) {
   if (items.length === 0) {
     return (
       <EmptyState
-        title="Inbox is clear"
-        description="No decisions are overdue, due soon, or missing a review date."
+        title="File de révision vide"
+        description="Aucune décision n'est en retard, imminente ou sans date de révision."
       />
     );
   }
@@ -28,9 +28,9 @@ export function ReviewInboxView({ items }: ReviewInboxViewProps) {
 
   return (
     <div className="space-y-8">
-      <ReviewInboxSection title="Overdue" items={overdueItems} onAction={refresh} />
-      <ReviewInboxSection title="Due soon" items={dueSoonItems} onAction={refresh} />
-      <ReviewInboxSection title="Missing review date" items={missingItems} onAction={refresh} />
+      <ReviewInboxSection title="En retard" items={overdueItems} onAction={refresh} />
+      <ReviewInboxSection title="Imminente" items={dueSoonItems} onAction={refresh} />
+      <ReviewInboxSection title="Sans date de révision" items={missingItems} onAction={refresh} />
     </div>
   );
 }

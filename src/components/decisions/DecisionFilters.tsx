@@ -69,11 +69,11 @@ export function DecisionFilters({
           <svg className={`w-3.5 h-3.5 transition-transform ${expanded ? "rotate-90" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-          Filters
+          Filtres
         </button>
         {hasFilters && (
           <button type="button" onClick={clearAll} className="text-xs text-red-500 hover:text-red-700 transition-colors">
-            Clear all
+            Tout effacer
           </button>
         )}
       </div>
@@ -81,7 +81,7 @@ export function DecisionFilters({
       {expanded && (
         <div className="flex flex-wrap gap-4 p-3 bg-neutral-50 rounded-lg border border-neutral-200">
           <div className="space-y-1">
-            <p className="text-xs font-medium text-neutral-500">Status</p>
+            <p className="text-xs font-medium text-neutral-500">Statut</p>
             <div className="flex flex-wrap gap-1.5">
               {DECISION_STATUS_OPTIONS.map((opt) => (
                 <button
@@ -102,7 +102,7 @@ export function DecisionFilters({
           </div>
 
           <div className="space-y-1">
-            <p className="text-xs font-medium text-neutral-500">Review date</p>
+            <p className="text-xs font-medium text-neutral-500">Date de révision</p>
             <div className="flex items-center gap-2">
               <input
                 type="date"
@@ -110,7 +110,7 @@ export function DecisionFilters({
                 onChange={(e) => { setReviewDateFrom(e.target.value); applyFilters(statusFilters, e.target.value, reviewDateTo); }}
                 className="text-xs border border-neutral-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-neutral-900"
               />
-              <span className="text-xs text-neutral-400">to</span>
+              <span className="text-xs text-neutral-400">au</span>
               <input
                 type="date"
                 value={reviewDateTo}

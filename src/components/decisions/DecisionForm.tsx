@@ -117,52 +117,52 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
       {/* Title */}
       <div className="space-y-1">
         <div className="flex items-center gap-1.5">
-          <label className="text-sm font-medium text-neutral-700" htmlFor="title">Title</label>
-          <InfoIcon tooltip="Describe the choice that was made, not the task or ticket. A good title reads like a decision: 'Use PostgreSQL for the analytics pipeline' rather than 'Backend update'." />
+          <label className="text-sm font-medium text-neutral-700" htmlFor="title">Titre</label>
+          <InfoIcon tooltip="Décrivez le choix effectué, pas la tâche ou le ticket. Un bon titre se lit comme une décision : 'Utiliser PostgreSQL pour le pipeline analytique' plutôt que 'Mise à jour backend'." />
         </div>
         <Input
           id="title"
-          placeholder="e.g. Delay Salesforce integration until support capacity improves"
+          placeholder="ex. Repousser l'intégration Salesforce jusqu'à ce que la capacité du support s'améliore"
           error={errors.title?.message}
           {...register("title", { required: "Title is required" })}
         />
-        <p className="text-xs text-neutral-400">Phrase it as a choice, not a task. Be specific about what was decided.</p>
+        <p className="text-xs text-neutral-400">Formulez-le comme un choix, pas une tâche. Soyez précis sur ce qui a été décidé.</p>
       </div>
 
       {/* Summary */}
       <div className="space-y-1">
         <div className="flex items-center gap-1.5">
-          <label className="text-sm font-medium text-neutral-700" htmlFor="summary">Summary</label>
-          <InfoIcon tooltip="A single sentence that captures the essence of the decision. Should stand alone — someone skimming the list should understand the decision without opening it." />
+          <label className="text-sm font-medium text-neutral-700" htmlFor="summary">Résumé</label>
+          <InfoIcon tooltip="Une seule phrase qui capture l'essentiel de la décision. Elle doit se suffire à elle-même — quelqu'un qui parcourt la liste doit comprendre la décision sans l'ouvrir." />
         </div>
         <Textarea
           id="summary"
-          placeholder="e.g. We chose to delay the Salesforce integration by one quarter to avoid overloading the support team during onboarding season."
+          placeholder="ex. Nous avons choisi de reporter l'intégration Salesforce d'un trimestre pour éviter de surcharger l'équipe support pendant la saison d'onboarding."
           {...register("summary")}
         />
-        <p className="text-xs text-neutral-400">One sentence. What was decided, and for what reason?</p>
+        <p className="text-xs text-neutral-400">Une phrase. Qu'est-ce qui a été décidé, et pour quelle raison ?</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         {/* Status */}
         <div className="space-y-1">
           <div className="flex items-center gap-1.5">
-            <label className="text-sm font-medium text-neutral-700" htmlFor="status">Status</label>
-            <InfoIcon tooltip="Draft: still being discussed. Decided: final and active. Reopened: previously decided but under review again. Archived: no longer relevant." />
+            <label className="text-sm font-medium text-neutral-700" htmlFor="status">Statut</label>
+            <InfoIcon tooltip="Brouillon : encore en discussion. Décidé : final et actif. Rouvert : précédemment décidé mais en réévaluation. Archivé : plus pertinent." />
           </div>
           <Select
             id="status"
             options={DECISION_STATUS_OPTIONS}
             {...register("status")}
           />
-          <p className="text-xs text-neutral-400">Most decisions should be set to Decided.</p>
+          <p className="text-xs text-neutral-400">La plupart des décisions doivent être à l&apos;état Décidé.</p>
         </div>
 
         {/* Decision date */}
         <div className="space-y-1">
           <div className="flex items-center gap-1.5">
-            <label className="text-sm font-medium text-neutral-700" htmlFor="decisionDate">Decision date</label>
-            <InfoIcon tooltip="The date the decision was actually made — not when you're documenting it. This matters for audits and understanding the timeline." />
+            <label className="text-sm font-medium text-neutral-700" htmlFor="decisionDate">Date de décision</label>
+            <InfoIcon tooltip="La date à laquelle la décision a réellement été prise — pas quand vous la documentez. Important pour les audits et la compréhension de la chronologie." />
           </div>
           <Input
             id="decisionDate"
@@ -175,8 +175,8 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
       {/* Review date */}
       <div className="space-y-1">
         <div className="flex items-center gap-1.5">
-          <label className="text-sm font-medium text-neutral-700" htmlFor="reviewDate">Review date</label>
-          <InfoIcon tooltip="Set a date to revisit this decision. Circumstances change — a 6-month check-in ensures decisions don't go stale. Overdue decisions appear in the Review Inbox." />
+          <label className="text-sm font-medium text-neutral-700" htmlFor="reviewDate">Date de révision</label>
+          <InfoIcon tooltip="Fixez une date pour réévaluer cette décision. Les circonstances changent — un point à 6 mois évite que les décisions ne deviennent obsolètes. Les décisions en retard apparaissent dans la file de révision." />
         </div>
         <Input
           id="reviewDate"
@@ -184,59 +184,59 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
           min={today}
           error={errors.reviewDate?.message}
           {...register("reviewDate", {
-            validate: (v) => !v || v >= today || "Review date cannot be in the past",
+            validate: (v) => !v || v >= today || "La date de révision ne peut pas être dans le passé",
           })}
         />
-        <p className="text-xs text-neutral-400">When should this be revisited? Overdue decisions surface in the Review Inbox.</p>
+        <p className="text-xs text-neutral-400">Quand cette décision devrait-elle être réévaluée ? Les décisions en retard apparaissent dans la file de révision.</p>
       </div>
 
       {/* Owner */}
       <div className="space-y-1">
         <div className="flex items-center gap-1.5">
-          <span className="text-sm font-medium text-neutral-700">Owner</span>
-          <InfoIcon tooltip="The person accountable for this decision — not necessarily who made it. The owner is responsible for monitoring outcomes and acting on the review date." />
+          <span className="text-sm font-medium text-neutral-700">Responsable</span>
+          <InfoIcon tooltip="La personne responsable de cette décision — pas nécessairement celle qui l'a prise. Le responsable surveille les résultats et agit à la date de révision." />
         </div>
         <p className="text-sm text-neutral-700 font-medium">{ownerName ?? ownerId}</p>
-        <p className="text-xs text-neutral-400">Accountable for monitoring this decision and responding when it's due for review.</p>
+        <p className="text-xs text-neutral-400">Responsable du suivi de cette décision et de son traitement à la date de révision.</p>
       </div>
 
       {/* Context */}
       <div className="space-y-1">
         <div className="flex items-center gap-1.5">
-          <label className="text-sm font-medium text-neutral-700" htmlFor="context">Context</label>
-          <InfoIcon tooltip="Describe the situation that made this decision necessary. What constraints, pressures, or events led here? This is the 'before' picture — without it, the rationale won't make sense later." />
+          <label className="text-sm font-medium text-neutral-700" htmlFor="context">Contexte</label>
+          <InfoIcon tooltip="Décrivez la situation qui a rendu cette décision nécessaire. Quelles contraintes, pressions ou événements y ont conduit ? C'est la photo 'avant' — sans elle, la justification n'aura plus de sens plus tard." />
         </div>
         <Textarea
           id="context"
-          placeholder="e.g. Our support team is already at capacity during the Q3 onboarding cycle. Adding a Salesforce integration would require 3 weeks of setup and training. The integration was originally planned for Q3 but team bandwidth changed."
+          placeholder="ex. Notre équipe support est déjà à pleine capacité pendant le cycle d'onboarding Q3. L'intégration Salesforce nécessiterait 3 semaines de mise en place et de formation. Elle était initialement prévue en Q3 mais la disponibilité de l'équipe a changé."
           className="min-h-24"
           {...register("context")}
         />
-        <p className="text-xs text-neutral-400">What situation, constraints, or events made this decision necessary?</p>
+        <p className="text-xs text-neutral-400">Quelle situation, quelles contraintes ou quels événements ont rendu cette décision nécessaire ?</p>
       </div>
 
       {/* Rationale */}
       <div className="space-y-1">
         <div className="flex items-center gap-1.5">
-          <label className="text-sm font-medium text-neutral-700" htmlFor="rationale">Rationale</label>
-          <InfoIcon tooltip="Explain why this option was chosen over the alternatives. What factors were decisive? What trade-offs were accepted? This is the most important field — it's the reason Rationale exists." />
+          <label className="text-sm font-medium text-neutral-700" htmlFor="rationale">Justification</label>
+          <InfoIcon tooltip="Expliquez pourquoi cette option a été choisie plutôt que les alternatives. Quels facteurs ont été déterminants ? Quels compromis ont été acceptés ? C'est le champ le plus important — c'est la raison d'être de Rationale." />
         </div>
         <Textarea
           id="rationale"
-          placeholder="e.g. Delaying reduces support team risk during a critical period. The integration provides low immediate value vs. the setup cost. We evaluated bringing in a contractor but the onboarding overhead made it impractical. We'll revisit in Q4 when capacity improves."
+          placeholder="ex. Reporter réduit le risque pour l'équipe support pendant une période critique. L'intégration apporte peu de valeur immédiate par rapport au coût de mise en place. Nous avons envisagé un prestataire mais la coordination restait trop lourde. Nous réévaluerons en Q4 quand la capacité s'améliorera."
           className="min-h-32"
           {...register("rationale")}
         />
-        <p className="text-xs text-neutral-400">Why this option? What trade-offs were accepted? What alternatives were ruled out?</p>
+        <p className="text-xs text-neutral-400">Pourquoi cette option ? Quels compromis ont été acceptés ? Quelles alternatives ont été écartées ?</p>
       </div>
 
       {errors.root && <p className="text-sm text-red-600">{errors.root.message}</p>}
 
       <div className="flex items-center gap-3 pt-2">
         <Button type="submit" loading={pending}>
-          {mode === "create" ? "Save decision" : "Update decision"}
+          {mode === "create" ? "Enregistrer la décision" : "Mettre à jour"}
         </Button>
-        <Button type="button" variant="ghost" onClick={() => router.back()}>Cancel</Button>
+        <Button type="button" variant="ghost" onClick={() => router.back()}>Annuler</Button>
       </div>
     </form>
   );
