@@ -1,6 +1,6 @@
 # Rationale — Feature Roadmap
 
-**Last updated**: 2026-03-16
+**Last updated**: 2026-03-17
 **Source of truth**: This file is the single source of truth for feature status.
 Update it when any feature moves between states.
 
@@ -224,6 +224,38 @@ When implementing, update the status field inline. Do not create a parallel syst
 **Acceptance**:
 - Public pricing page shows free and pro plan comparison
 - CTA links to signup or upgrade depending on auth state
+
+---
+
+### F-018 · Form Guidance & Tooltips
+**Status**: `done`
+**Dependencies**: F-007
+**Acceptance**:
+- Every field in DecisionForm has an InfoIcon tooltip explaining its purpose
+- Helper text displayed below each field
+- Tooltips accessible via keyboard (Escape to dismiss, focus/blur support)
+
+---
+
+### F-019 · Sample Decision Page
+**Status**: `done`
+**Dependencies**: F-008
+**Acceptance**:
+- Static page `/decisions/sample` shows a realistic, fully-documented decision record
+- Amber banner clearly marks it as a sample
+- Linked from empty states (decision list, dashboard) and welcome modal
+- CTA to create first decision
+
+---
+
+### F-020 · Welcome Modal
+**Status**: `done`
+**Dependencies**: F-004, F-007
+**Acceptance**:
+- Modal appears on dashboard when workspace has zero decisions
+- Explains what a good decision record looks like (4 key questions)
+- CTAs: create first decision, view sample, skip
+- Disappears permanently once first decision is created (no localStorage needed)
 
 ---
 
