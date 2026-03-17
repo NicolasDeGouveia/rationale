@@ -26,6 +26,7 @@ export async function createCheckoutSessionAction(input: { priceId: string }) {
     redirect(url);
   } catch (err) {
     if ((err as { digest?: string }).digest?.startsWith("NEXT_REDIRECT")) throw err;
+    console.error("[checkout]", err);
     return { success: false, error: "Failed to create checkout session" } as const;
   }
 }

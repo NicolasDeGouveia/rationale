@@ -16,9 +16,10 @@ interface Subscription {
 interface BillingPageClientProps {
   subscription: Subscription | null;
   isAdmin: boolean;
+  proPriceId: string;
 }
 
-export function BillingPageClient({ subscription, isAdmin }: BillingPageClientProps) {
+export function BillingPageClient({ subscription, isAdmin, proPriceId }: BillingPageClientProps) {
   const [checkoutPending, startCheckout] = useTransition();
   const [portalPending, startPortal] = useTransition();
 
@@ -29,7 +30,7 @@ export function BillingPageClient({ subscription, isAdmin }: BillingPageClientPr
 
   function handleUpgrade() {
     startCheckout(async () => {
-      await createCheckoutSessionAction({ priceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID ?? "" });
+      await createCheckoutSessionAction({ priceId: proPriceId });
     });
   }
 

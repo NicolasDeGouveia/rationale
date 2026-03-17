@@ -1,6 +1,6 @@
 import "server-only";
 import Stripe from "stripe";
-import { getSubscriptionByWorkspace, getOrCreateStripeCustomerId } from "@/server/data-access/subscriptions";
+import { getSubscriptionByWorkspace, updateStripeCustomerId } from "@/server/data-access/subscriptions";
 import { getUserById } from "@/server/data-access/users";
 
 function getStripe() {
@@ -10,7 +10,15 @@ function getStripe() {
 async function getOrCreateCustomer(workspaceId: string, userId: string): Promise<string> {
   const stripe = getStripe();
   const sub = await getSubscriptionByWorkspace(workspaceId);
-  if (sub?.stripeCustomerId) return sub.stripeCustomerId;
+
+  if (sub?.stripeCustomerId) {
+    try {
+      const existing = await stripe.customers.retrieve(sub.stripeCustomerId);
+      if (!existing.deleted) return sub.stripeCustomerId;
+    } catch {
+      // customer not found on Stripe, fall through to create a new one
+    }
+  }
 
   const user = await getUserById(userId);
   const customer = await stripe.customers.create({
@@ -18,7 +26,7 @@ async function getOrCreateCustomer(workspaceId: string, userId: string): Promise
     name: user?.name ?? undefined,
     metadata: { workspaceId, userId },
   });
-  await getOrCreateStripeCustomerId(workspaceId, customer.id);
+  await updateStripeCustomerId(workspaceId, customer.id);
   return customer.id;
 }
 

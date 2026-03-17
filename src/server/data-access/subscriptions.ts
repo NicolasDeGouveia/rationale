@@ -49,16 +49,11 @@ export async function upsertSubscriptionByStripeId(
   });
 }
 
-export async function getOrCreateStripeCustomerId(workspaceId: string, stripeCustomerId: string) {
+export async function updateStripeCustomerId(workspaceId: string, stripeCustomerId: string) {
   const existing = await db.subscription.findUnique({ where: { workspaceId } });
-  if (existing) return existing.stripeCustomerId;
-
-  await db.subscription.create({
-    data: {
-      workspaceId,
-      stripeCustomerId,
-      status: "TRIALING",
-    },
+  if (!existing) return;
+  await db.subscription.update({
+    where: { workspaceId },
+    data: { stripeCustomerId },
   });
-  return stripeCustomerId;
 }

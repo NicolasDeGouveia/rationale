@@ -30,7 +30,11 @@ export default async function BillingPage({ searchParams }: Props) {
           Checkout was canceled. Your plan has not changed.
         </div>
       )}
-      <BillingPageClient subscription={subscription} isAdmin={membership.role === "ADMIN"} />
+      <BillingPageClient
+        subscription={subscription}
+        isAdmin={membership.role === "ADMIN"}
+        proPriceId={process.env.STRIPE_PRO_PRICE_ID ?? ""}
+      />
     </div>
   );
 }
