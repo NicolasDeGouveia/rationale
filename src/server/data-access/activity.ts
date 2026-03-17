@@ -21,11 +21,11 @@ export async function getActivityByDecision(decisionId: string): Promise<Activit
     include: { actor: { select: { id: true, name: true } } },
     orderBy: { createdAt: "desc" },
   });
-  return entries.map((e) => ({
-    id: e.id,
-    actor: e.actor,
-    action: e.action as ActivityItem["action"],
-    metadata: e.metadata as Record<string, unknown> | null,
-    createdAt: e.createdAt.toISOString(),
+  return entries.map((entry) => ({
+    id: entry.id,
+    actor: entry.actor,
+    action: entry.action as ActivityItem["action"],
+    metadata: entry.metadata as Record<string, unknown> | null,
+    createdAt: entry.createdAt.toISOString(),
   }));
 }

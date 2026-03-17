@@ -5,35 +5,44 @@ import type { DecisionSummary } from "@/types";
 import { REVIEW_DUE_SOON_DAYS } from "@/lib/constants";
 import { upsertTag } from "./tags";
 
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+type DecisionRow = {
+  id: string;
+  title: string;
+  summary: string | null;
+  status: string;
+  owner: { id: string; name: string | null };
+  decisionDate: Date | null;
+  reviewDate: Date | null;
+  tags: { tag: { name: string } }[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export function toReviewUrgency(reviewDate: Date | null, status?: string): DecisionSummary["reviewUrgency"] {
   if (status === "ARCHIVED") return null;
   if (!reviewDate) return "missing";
   const now = new Date();
-  const diff = Math.round((reviewDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-  if (diff < 0) return "overdue";
-  if (diff <= REVIEW_DUE_SOON_DAYS) return "due_soon";
+  const daysDiff = Math.round((reviewDate.getTime() - now.getTime()) / MS_PER_DAY);
+  if (daysDiff < 0) return "overdue";
+  if (daysDiff <= REVIEW_DUE_SOON_DAYS) return "due_soon";
   return null;
 }
 
-function toDecisionSummary(d: {
-  id: string; title: string; summary: string | null; status: string;
-  owner: { id: string; name: string | null };
-  decisionDate: Date | null; reviewDate: Date | null;
-  tags: { tag: { name: string } }[];
-  createdAt: Date; updatedAt: Date;
-}): DecisionSummary {
+function toDecisionSummary(row: DecisionRow): DecisionSummary {
   return {
-    id: d.id,
-    title: d.title,
-    summary: d.summary,
-    status: d.status as DecisionSummary["status"],
-    owner: d.owner,
-    decisionDate: d.decisionDate?.toISOString() ?? null,
-    reviewDate: d.reviewDate?.toISOString() ?? null,
-    tags: d.tags.map((t) => t.tag.name),
-    reviewUrgency: toReviewUrgency(d.reviewDate, d.status),
-    createdAt: d.createdAt.toISOString(),
-    updatedAt: d.updatedAt.toISOString(),
+    id: row.id,
+    title: row.title,
+    summary: row.summary,
+    status: row.status as DecisionSummary["status"],
+    owner: row.owner,
+    decisionDate: row.decisionDate?.toISOString() ?? null,
+    reviewDate: row.reviewDate?.toISOString() ?? null,
+    tags: row.tags.map((t) => t.tag.name),
+    reviewUrgency: toReviewUrgency(row.reviewDate, row.status),
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
   };
 }
 
@@ -51,7 +60,7 @@ export async function getDecisionsByWorkspace(workspaceId: string): Promise<Deci
   return rows.map(toDecisionSummary);
 }
 
-export async function searchDecisions(params: {
+type SearchDecisionsParams = {
   workspaceId: string;
   query?: string;
   status?: string[];
@@ -61,10 +70,12 @@ export async function searchDecisions(params: {
   reviewDateTo?: string;
   page?: number;
   pageSize?: number;
-}): Promise<{ decisions: DecisionSummary[]; total: number }> {
-  const { workspaceId, query, status, ownerId, tags, reviewDateFrom, reviewDateTo, page = 1, pageSize = 20 } = params;
+};
 
-  const where: Prisma.DecisionWhereInput = {
+function buildSearchWhere(params: SearchDecisionsParams): Prisma.DecisionWhereInput {
+  const { workspaceId, query, status, ownerId, tags, reviewDateFrom, reviewDateTo } = params;
+
+  return {
     workspaceId,
     ...(status?.length ? { status: { in: status as Prisma.EnumDecisionStatusFilter["in"] } } : {}),
     ...(ownerId ? { ownerId } : {}),
@@ -73,7 +84,7 @@ export async function searchDecisions(params: {
       reviewDate: {
         ...(reviewDateFrom ? { gte: new Date(reviewDateFrom) } : {}),
         ...(reviewDateTo ? { lte: new Date(reviewDateTo) } : {}),
-      }
+      },
     } : {}),
     ...(query ? {
       OR: [
@@ -84,9 +95,20 @@ export async function searchDecisions(params: {
       ],
     } : {}),
   };
+}
+
+export async function searchDecisions(params: SearchDecisionsParams): Promise<{ decisions: DecisionSummary[]; total: number }> {
+  const { page = 1, pageSize = 20 } = params;
+  const where = buildSearchWhere(params);
 
   const [rows, total] = await Promise.all([
-    db.decision.findMany({ where, include: summaryInclude, orderBy: { updatedAt: "desc" }, skip: (page - 1) * pageSize, take: pageSize }),
+    db.decision.findMany({
+      where,
+      include: summaryInclude,
+      orderBy: { updatedAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
     db.decision.count({ where }),
   ]);
 
@@ -110,7 +132,7 @@ export async function getDecisionById(id: string, workspaceId: string) {
 
 export async function getReviewInboxDecisions(workspaceId: string) {
   const now = new Date();
-  const soon = new Date(now.getTime() + REVIEW_DUE_SOON_DAYS * 24 * 60 * 60 * 1000);
+  const soon = new Date(now.getTime() + REVIEW_DUE_SOON_DAYS * MS_PER_DAY);
   return db.decision.findMany({
     where: {
       workspaceId,
@@ -218,7 +240,7 @@ export type DashboardStats = {
 
 export async function getDashboardStats(workspaceId: string): Promise<DashboardStats> {
   const now = new Date();
-  const soon = new Date(now.getTime() + REVIEW_DUE_SOON_DAYS * 24 * 60 * 60 * 1000);
+  const soon = new Date(now.getTime() + REVIEW_DUE_SOON_DAYS * MS_PER_DAY);
 
   const [allDecisions, overdueCount, dueSoonCount, missingReviewCount, reopenedCount] = await Promise.all([
     db.decision.findMany({
@@ -237,11 +259,11 @@ export async function getDashboardStats(workspaceId: string): Promise<DashboardS
   let withReviewDate = 0;
   let withRationale = 0;
 
-  for (const d of allDecisions) {
-    byStatus[d.status] = (byStatus[d.status] ?? 0) + 1;
-    if (d.ownerId) withOwner++;
-    if (d.reviewDate) withReviewDate++;
-    if (d.rationale) withRationale++;
+  for (const decision of allDecisions) {
+    byStatus[decision.status] = (byStatus[decision.status] ?? 0) + 1;
+    if (decision.ownerId) withOwner++;
+    if (decision.reviewDate) withReviewDate++;
+    if (decision.rationale) withRationale++;
   }
 
   const pct = (n: number) => (total > 0 ? Math.round((n / total) * 100) : 0);
@@ -271,12 +293,12 @@ export async function getRecentActivity(workspaceId: string, limit = 8) {
     orderBy: { createdAt: "desc" },
     take: limit,
   });
-  return entries.map((e) => ({
-    id: e.id,
-    actor: e.actor,
-    action: e.action as string,
-    decisionId: e.decision.id,
-    decisionTitle: e.decision.title,
-    createdAt: e.createdAt.toISOString(),
+  return entries.map((entry) => ({
+    id: entry.id,
+    actor: entry.actor,
+    action: entry.action as string,
+    decisionId: entry.decision.id,
+    decisionTitle: entry.decision.title,
+    createdAt: entry.createdAt.toISOString(),
   }));
 }
