@@ -9,7 +9,17 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: false,
+    requireEmailVerification: true,
+    sendVerificationEmail: async ({ user, url }: { user: { email: string }; url: string }) => {
+      const { Resend } = await import("resend");
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      await resend.emails.send({
+        from: "Rationale <noreply@rationale.app>",
+        to: user.email,
+        subject: "Verify your Rationale email",
+        html: `<p>Click <a href="${url}">here</a> to verify your email address. This link expires in 24 hours.</p>`,
+      });
+    },
     sendResetPassword: async ({ user, url }) => {
       const { Resend } = await import("resend");
       const resend = new Resend(process.env.RESEND_API_KEY);
