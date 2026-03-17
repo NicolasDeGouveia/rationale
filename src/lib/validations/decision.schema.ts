@@ -52,7 +52,6 @@ export const searchDecisionsSchema = z.object({
 
 export const commentSchema = z.object({
   decisionId: z.string().min(1),
-  workspaceId: z.string().min(1),
   content: z.string().min(1, "Comment cannot be empty").max(5000),
 });
 
