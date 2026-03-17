@@ -6,6 +6,7 @@ import { StatusBadge } from "@/components/decisions/StatusBadge";
 import { ReviewUrgencyBadge } from "@/components/review/ReviewUrgencyBadge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { WelcomeModal } from "@/components/app/WelcomeModal";
 import { formatDate, cn } from "@/lib/utils";
 import { DECISION_STATUS_LABELS, ACTIVITY_ACTION_LABELS } from "@/lib/constants";
 
@@ -30,6 +31,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-full bg-slate-50">
+      <WelcomeModal show={!hasDecisions} />
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
 
         {/* Header */}
@@ -52,19 +54,27 @@ export default async function DashboardPage() {
 
         {!hasDecisions ? (
           /* Empty state */
-          <div className="rounded-2xl border border-slate-200 bg-white p-16 text-center">
+          <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-xl bg-slate-100 flex items-center justify-center">
               <svg className="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h2 className="text-base font-semibold text-slate-900 mb-1">No decisions yet</h2>
-            <p className="text-sm text-slate-500 mb-6 max-w-sm mx-auto">
-              Start capturing your team's decisions so you never lose the reasoning behind them.
+            <h2 className="text-base font-semibold text-slate-900 mb-1">Your decision memory starts here</h2>
+            <p className="text-sm text-slate-500 mb-2 max-w-sm mx-auto">
+              Capture a decision your team recently made — what was decided, why, who owns it, and when to revisit it.
             </p>
-            <Link href="/decisions/new">
-              <Button>Create first decision</Button>
-            </Link>
+            <p className="text-xs text-slate-400 mb-6 max-w-xs mx-auto">
+              Not every task belongs here. Rationale is for decisions that matter: architecture choices, product direction, process changes, hiring calls.
+            </p>
+            <div className="flex flex-col items-center gap-3">
+              <Link href="/decisions/new">
+                <Button>Create first decision</Button>
+              </Link>
+              <Link href="/decisions/sample" className="text-xs text-slate-500 hover:text-slate-700 underline underline-offset-2">
+                See what a good decision record looks like
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="space-y-6">

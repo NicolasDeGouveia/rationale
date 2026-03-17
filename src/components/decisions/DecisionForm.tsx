@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { InfoIcon } from "@/components/ui/tooltip";
 import { AIDraftPanel } from "@/components/ai/AIDraftPanel";
 import { createDecisionAction, updateDecisionAction } from "@/server/actions/decision.actions";
 import { DECISION_STATUS_OPTIONS } from "@/lib/constants";
@@ -91,55 +92,117 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
       {mode === "create" && <AIDraftPanel onDraftReady={handleDraftReady} />}
 
-      <Input
-        label="Title"
-        placeholder="What was decided?"
-        error={errors.title?.message}
-        {...register("title", { required: "Title is required" })}
-      />
-      <Textarea
-        label="Summary"
-        placeholder="A one-line summary"
-        {...register("summary")}
-      />
+      {/* Title */}
+      <div className="space-y-1">
+        <div className="flex items-center gap-1.5">
+          <label className="text-sm font-medium text-neutral-700" htmlFor="title">Title</label>
+          <InfoIcon tooltip="Describe the choice that was made, not the task or ticket. A good title reads like a decision: 'Use PostgreSQL for the analytics pipeline' rather than 'Backend update'." />
+        </div>
+        <Input
+          id="title"
+          placeholder="e.g. Delay Salesforce integration until support capacity improves"
+          error={errors.title?.message}
+          {...register("title", { required: "Title is required" })}
+        />
+        <p className="text-xs text-neutral-400">Phrase it as a choice, not a task. Be specific about what was decided.</p>
+      </div>
+
+      {/* Summary */}
+      <div className="space-y-1">
+        <div className="flex items-center gap-1.5">
+          <label className="text-sm font-medium text-neutral-700" htmlFor="summary">Summary</label>
+          <InfoIcon tooltip="A single sentence that captures the essence of the decision. Should stand alone — someone skimming the list should understand the decision without opening it." />
+        </div>
+        <Textarea
+          id="summary"
+          placeholder="e.g. We chose to delay the Salesforce integration by one quarter to avoid overloading the support team during onboarding season."
+          {...register("summary")}
+        />
+        <p className="text-xs text-neutral-400">One sentence. What was decided, and for what reason?</p>
+      </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Select
-          label="Status"
-          options={DECISION_STATUS_OPTIONS}
-          {...register("status")}
-        />
-        <Input
-          label="Decision date"
-          type="date"
-          {...register("decisionDate")}
-        />
+        {/* Status */}
+        <div className="space-y-1">
+          <div className="flex items-center gap-1.5">
+            <label className="text-sm font-medium text-neutral-700" htmlFor="status">Status</label>
+            <InfoIcon tooltip="Draft: still being discussed. Decided: final and active. Reopened: previously decided but under review again. Archived: no longer relevant." />
+          </div>
+          <Select
+            id="status"
+            options={DECISION_STATUS_OPTIONS}
+            {...register("status")}
+          />
+          <p className="text-xs text-neutral-400">Most decisions should be set to Decided.</p>
+        </div>
+
+        {/* Decision date */}
+        <div className="space-y-1">
+          <div className="flex items-center gap-1.5">
+            <label className="text-sm font-medium text-neutral-700" htmlFor="decisionDate">Decision date</label>
+            <InfoIcon tooltip="The date the decision was actually made — not when you're documenting it. This matters for audits and understanding the timeline." />
+          </div>
+          <Input
+            id="decisionDate"
+            type="date"
+            {...register("decisionDate")}
+          />
+        </div>
       </div>
 
-      <Input
-        label="Review date"
-        type="date"
-        helperText="When should this decision be revisited?"
-        {...register("reviewDate")}
-      />
-
+      {/* Review date */}
       <div className="space-y-1">
-        <p className="text-xs text-neutral-500">Owner</p>
-        <p className="text-sm text-neutral-700 font-medium">{ownerName ?? ownerId}</p>
+        <div className="flex items-center gap-1.5">
+          <label className="text-sm font-medium text-neutral-700" htmlFor="reviewDate">Review date</label>
+          <InfoIcon tooltip="Set a date to revisit this decision. Circumstances change — a 6-month check-in ensures decisions don't go stale. Overdue decisions appear in the Review Inbox." />
+        </div>
+        <Input
+          id="reviewDate"
+          type="date"
+          {...register("reviewDate")}
+        />
+        <p className="text-xs text-neutral-400">When should this be revisited? Overdue decisions surface in the Review Inbox.</p>
       </div>
 
-      <Textarea
-        label="Context"
-        placeholder="What was the situation that led to this decision?"
-        className="min-h-24"
-        {...register("context")}
-      />
-      <Textarea
-        label="Rationale"
-        placeholder="Why was this decision made? What factors drove it?"
-        className="min-h-32"
-        {...register("rationale")}
-      />
+      {/* Owner */}
+      <div className="space-y-1">
+        <div className="flex items-center gap-1.5">
+          <span className="text-sm font-medium text-neutral-700">Owner</span>
+          <InfoIcon tooltip="The person accountable for this decision — not necessarily who made it. The owner is responsible for monitoring outcomes and acting on the review date." />
+        </div>
+        <p className="text-sm text-neutral-700 font-medium">{ownerName ?? ownerId}</p>
+        <p className="text-xs text-neutral-400">Accountable for monitoring this decision and responding when it's due for review.</p>
+      </div>
+
+      {/* Context */}
+      <div className="space-y-1">
+        <div className="flex items-center gap-1.5">
+          <label className="text-sm font-medium text-neutral-700" htmlFor="context">Context</label>
+          <InfoIcon tooltip="Describe the situation that made this decision necessary. What constraints, pressures, or events led here? This is the 'before' picture — without it, the rationale won't make sense later." />
+        </div>
+        <Textarea
+          id="context"
+          placeholder="e.g. Our support team is already at capacity during the Q3 onboarding cycle. Adding a Salesforce integration would require 3 weeks of setup and training. The integration was originally planned for Q3 but team bandwidth changed."
+          className="min-h-24"
+          {...register("context")}
+        />
+        <p className="text-xs text-neutral-400">What situation, constraints, or events made this decision necessary?</p>
+      </div>
+
+      {/* Rationale */}
+      <div className="space-y-1">
+        <div className="flex items-center gap-1.5">
+          <label className="text-sm font-medium text-neutral-700" htmlFor="rationale">Rationale</label>
+          <InfoIcon tooltip="Explain why this option was chosen over the alternatives. What factors were decisive? What trade-offs were accepted? This is the most important field — it's the reason Rationale exists." />
+        </div>
+        <Textarea
+          id="rationale"
+          placeholder="e.g. Delaying reduces support team risk during a critical period. The integration provides low immediate value vs. the setup cost. We evaluated bringing in a contractor but the onboarding overhead made it impractical. We'll revisit in Q4 when capacity improves."
+          className="min-h-32"
+          {...register("rationale")}
+        />
+        <p className="text-xs text-neutral-400">Why this option? What trade-offs were accepted? What alternatives were ruled out?</p>
+      </div>
 
       {errors.root && <p className="text-sm text-red-600">{errors.root.message}</p>}
 

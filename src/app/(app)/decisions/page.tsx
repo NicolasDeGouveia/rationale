@@ -23,8 +23,15 @@ export default async function DecisionsPage() {
       {decisions.length === 0 ? (
         <EmptyState
           title="No decisions yet"
-          description="Capture your first decision to start building your team's decision memory."
-          action={<Link href="/decisions/new"><Button>Create first decision</Button></Link>}
+          description="Start by capturing a decision your team recently made — the reasoning, the owner, and when to revisit it."
+          action={
+            <div className="flex flex-col items-center gap-3">
+              <Link href="/decisions/new"><Button>Create first decision</Button></Link>
+              <Link href="/decisions/sample" className="text-xs text-neutral-500 hover:text-neutral-700 underline underline-offset-2">
+                See what a good decision record looks like
+              </Link>
+            </div>
+          }
         />
       ) : (
         <div className="rounded-lg border border-neutral-200 bg-white overflow-hidden">
