@@ -18,6 +18,7 @@ interface DecisionFormProps {
   decision?: Partial<DecisionDetail>;
   ownerId: string;
   ownerName?: string | null;
+  aiEnabled?: boolean;
 }
 
 function buildFormData(data: DecisionFormFields, ownerId: string): FormData {
@@ -46,7 +47,7 @@ function buildContextFromDraft(draft: AIDraft): string {
 
 const today = new Date().toISOString().slice(0, 10);
 
-export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFormProps) {
+export function DecisionForm({ mode, decision, ownerId, ownerName, aiEnabled = false }: DecisionFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
@@ -112,7 +113,7 @@ export function DecisionForm({ mode, decision, ownerId, ownerName }: DecisionFor
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
-      {mode === "create" && <AIDraftPanel onDraftReady={handleDraftReady} />}
+      {mode === "create" && aiEnabled && <AIDraftPanel onDraftReady={handleDraftReady} />}
 
       {/* Title */}
       <div className="space-y-1">

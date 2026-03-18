@@ -20,7 +20,7 @@ export default async function EditDecisionPage({ params }: Props) {
   return (
     <div className="p-8">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-neutral-900">Edit decision</h1>
+        <h1 className="text-xl font-semibold text-neutral-900">Modifier la décision</h1>
         <p className="text-sm text-neutral-500 mt-1">{decision.title}</p>
       </div>
       <DecisionForm
