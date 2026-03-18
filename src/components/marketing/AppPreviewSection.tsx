@@ -1,40 +1,40 @@
 const decisionItems = [
   {
-    title: "Switch annual pricing for Enterprise",
-    summary: "Sales cycles were slowing down because annual pricing was negotiated manually on every deal.",
-    status: "Decided",
+    title: "Passer à la tarification annuelle pour l'Enterprise",
+    summary: "Les cycles de vente ralentissaient car la tarification annuelle était négociée manuellement sur chaque deal.",
+    status: "Décidé",
     owner: "Nina",
-    tag: "Pricing",
-    decision: "Mar 10",
-    review: "Apr 15",
+    tag: "Tarification",
+    decision: "10 mars",
+    review: "15 avr.",
     statusColor: "bg-indigo-50 text-indigo-700 border-indigo-100",
   },
   {
-    title: "Delay Salesforce integration",
-    summary: "Support load and implementation complexity were underestimated in the first evaluation.",
-    status: "Reopened",
+    title: "Reporter l'intégration Salesforce",
+    summary: "La charge support et la complexité d'implémentation ont été sous-estimées lors de la première évaluation.",
+    status: "Rouvert",
     owner: "Marc",
-    tag: "Product",
-    decision: "Feb 21",
-    review: "This week",
+    tag: "Produit",
+    decision: "21 fév.",
+    review: "Cette semaine",
     statusColor: "bg-amber-50 text-amber-700 border-amber-100",
   },
   {
-    title: "Standardize support SLA for Premium",
-    summary: "We need clearer expectations for customers and internal escalation paths.",
-    status: "Draft",
+    title: "Standardiser le SLA support pour Premium",
+    summary: "Nous avons besoin d'attentes plus claires pour les clients et de parcours d'escalade internes.",
+    status: "Brouillon",
     owner: "Sarah",
-    tag: "Operations",
-    decision: "Mar 14",
-    review: "Apr 01",
+    tag: "Opérations",
+    decision: "14 mars",
+    review: "1 avr.",
     statusColor: "bg-neutral-100 text-neutral-600 border-neutral-200",
   },
 ];
 
 const reviewItems = [
-  { title: "Delay Salesforce integration", summary: "Original assumptions changed after support and implementation feedback.", badge: "Overdue", badgeColor: "bg-red-50 text-red-600 border-red-100" },
-  { title: "Switch annual pricing for Enterprise", summary: "Review the impact on conversion and average contract value.", badge: "This week", badgeColor: "bg-amber-50 text-amber-700 border-amber-100" },
-  { title: "Standardize support SLA for Premium", summary: "No validation checkpoint has been planned yet.", badge: "No review date", badgeColor: "bg-neutral-100 text-neutral-500 border-neutral-200" },
+  { title: "Reporter l'intégration Salesforce", summary: "Les hypothèses initiales ont changé suite aux retours du support et de l'implémentation.", badge: "En retard", badgeColor: "bg-red-50 text-red-600 border-red-100" },
+  { title: "Passer à la tarification annuelle Enterprise", summary: "Évaluer l'impact sur la conversion et la valeur moyenne des contrats.", badge: "Cette semaine", badgeColor: "bg-amber-50 text-amber-700 border-amber-100" },
+  { title: "Standardiser le SLA support Premium", summary: "Aucun point de validation n'a encore été planifié.", badge: "Pas de date", badgeColor: "bg-neutral-100 text-neutral-500 border-neutral-200" },
 ];
 
 export function AppPreviewSection() {
@@ -43,13 +43,13 @@ export function AppPreviewSection() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-12">
           <span className="inline-block text-xs font-medium text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full mb-4">
-            Application design
+            Aperçu de l&apos;application
           </span>
           <h2 className="text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight max-w-2xl">
-            A calm, structured interface for decision-making teams.
+            Une interface calme et structurée pour les équipes qui décident.
           </h2>
           <p className="mt-4 text-neutral-500 max-w-2xl text-base leading-relaxed">
-            The app uses a sober B2B visual language: clean cards, clear hierarchy, strong search and an inbox dedicated to decisions that require attention.
+            L&apos;app adopte un langage visuel B2B sobre : cartes épurées, hiérarchie claire, recherche puissante et une inbox dédiée aux décisions qui nécessitent une attention.
           </p>
         </div>
 
@@ -68,19 +68,19 @@ export function AppPreviewSection() {
                   <p className="text-xs text-neutral-400 mt-0.5">Acme Workspace</p>
                 </div>
               </div>
-              {["Dashboard", "Decisions", "Reviews", "Search", "Settings"].map((item) => (
+              {["Tableau de bord", "Décisions", "Révisions", "Recherche", "Paramètres"].map((item) => (
                 <div
                   key={item}
-                  className={`px-3 py-2 rounded-lg text-sm ${item === "Decisions" ? "bg-neutral-900 text-white font-medium" : "text-neutral-500"}`}
+                  className={`px-3 py-2 rounded-lg text-sm ${item === "Décisions" ? "bg-neutral-900 text-white font-medium" : "text-neutral-500"}`}
                 >
                   {item}
                 </div>
               ))}
               <div className="mt-auto pt-4 border-t border-neutral-100">
                 <div className="bg-neutral-50 rounded-xl p-3">
-                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">Decision health</p>
+                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">Santé des décisions</p>
                   <p className="text-2xl font-extrabold text-neutral-900">82</p>
-                  <p className="text-xs text-neutral-400 mt-0.5">Average quality score across current decisions</p>
+                  <p className="text-xs text-neutral-400 mt-0.5">Score qualité moyen sur les décisions actives</p>
                 </div>
               </div>
             </div>
@@ -89,12 +89,12 @@ export function AppPreviewSection() {
             <div className="flex-1 min-w-0 border-r border-neutral-100">
               <div className="p-5 border-b border-neutral-100 flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Application preview</p>
-                  <h3 className="text-xl font-bold text-neutral-900">Decisions</h3>
+                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Aperçu de l&apos;application</p>
+                  <h3 className="text-xl font-bold text-neutral-900">Décisions</h3>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button className="cursor-pointer text-xs text-neutral-600 border border-neutral-200 px-3 py-1.5 rounded-lg">Filter</button>
-                  <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 px-3 py-1.5 rounded-lg">New decision</button>
+                  <button className="cursor-pointer text-xs text-neutral-600 border border-neutral-200 px-3 py-1.5 rounded-lg">Filtrer</button>
+                  <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 px-3 py-1.5 rounded-lg">Nouvelle décision</button>
                 </div>
               </div>
 
@@ -104,9 +104,9 @@ export function AppPreviewSection() {
                   <svg className="h-3.5 w-3.5 text-neutral-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
-                  <span className="text-xs text-neutral-400">Search by title, topic, owner or rationale...</span>
+                  <span className="text-xs text-neutral-400">Rechercher par titre, sujet, responsable ou justification...</span>
                 </div>
-                <span className="text-xs text-neutral-400">17 decisions</span>
+                <span className="text-xs text-neutral-400">17 décisions</span>
               </div>
 
               {/* Decision list */}
@@ -121,10 +121,10 @@ export function AppPreviewSection() {
                       <p className="text-xs text-neutral-500 line-clamp-1">{d.summary}</p>
                     </div>
                     <div className="text-right shrink-0 space-y-0.5">
-                      <p className="text-xs text-neutral-400">Owner: {d.owner}</p>
-                      <p className="text-xs text-neutral-400">Tag: {d.tag}</p>
-                      <p className="text-xs text-neutral-400">Decision: {d.decision}</p>
-                      <p className="text-xs text-neutral-400">Review: {d.review}</p>
+                      <p className="text-xs text-neutral-400">Responsable : {d.owner}</p>
+                      <p className="text-xs text-neutral-400">Tag : {d.tag}</p>
+                      <p className="text-xs text-neutral-400">Décision : {d.decision}</p>
+                      <p className="text-xs text-neutral-400">Révision : {d.review}</p>
                     </div>
                   </div>
                 ))}
@@ -134,31 +134,31 @@ export function AppPreviewSection() {
               <div className="mx-5 mb-5 mt-3 border border-neutral-200 rounded-xl overflow-hidden">
                 <div className="px-4 py-3 border-b border-neutral-100 flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Create decision</p>
-                    <p className="text-sm font-bold text-neutral-900">Manual or AI-assisted</p>
+                    <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Créer une décision</p>
+                    <p className="text-sm font-bold text-neutral-900">Manuel ou assisté par IA</p>
                   </div>
-                  <span className="text-xs font-medium text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full">Notes → draft</span>
+                  <span className="text-xs font-medium text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full">Notes → brouillon</span>
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-neutral-100">
                   <div className="p-4 space-y-3">
-                    <p className="text-xs font-semibold text-neutral-500">Meeting notes</p>
+                    <p className="text-xs font-semibold text-neutral-500">Notes de réunion</p>
                     <p className="text-xs text-neutral-400 leading-relaxed">
-                      - Sales reports friction on Enterprise annual pricing{"\n"}- Finance wants standardization{"\n"}- Concern about discounting flexibility{"\n"}- Review impact after one month
+                      - Les commerciaux signalent des frictions sur la tarification annuelle Enterprise{"\n"}- La finance veut standardiser{"\n"}- Inquiétude sur la flexibilité des remises{"\n"}- Évaluer l&apos;impact après un mois
                     </p>
-                    <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-3 py-1.5 text-neutral-700">Generate draft</button>
+                    <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-3 py-1.5 text-neutral-700">Générer un brouillon</button>
                   </div>
                   <div className="p-4 space-y-3">
-                    <p className="text-xs font-semibold text-neutral-500">Suggested decision</p>
+                    <p className="text-xs font-semibold text-neutral-500">Décision suggérée</p>
                     <div className="space-y-1.5">
-                      <p className="text-xs font-semibold text-neutral-800">Title: Standardize Enterprise annual pricing</p>
-                      <p className="text-xs text-neutral-500">Why: Reduce custom negotiation effort and speed up sales cycles.</p>
+                      <p className="text-xs font-semibold text-neutral-800">Titre : Standardiser la tarification annuelle Enterprise</p>
+                      <p className="text-xs text-neutral-500">Pourquoi : Réduire les négociations custom et accélérer les cycles de vente.</p>
                     </div>
                     <div className="bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
-                      <p className="text-xs text-amber-700">Missing: owner and review date</p>
+                      <p className="text-xs text-amber-700">Manquant : responsable et date de révision</p>
                     </div>
                     <div className="flex gap-2">
-                      <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 rounded-lg px-3 py-1.5">Save draft</button>
-                      <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-3 py-1.5 text-neutral-700">Edit</button>
+                      <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 rounded-lg px-3 py-1.5">Sauvegarder</button>
+                      <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-3 py-1.5 text-neutral-700">Modifier</button>
                     </div>
                   </div>
                 </div>
@@ -170,32 +170,32 @@ export function AppPreviewSection() {
               {/* Decision detail */}
               <div className="p-4 border-b border-neutral-100 space-y-3">
                 <div className="flex items-start justify-between">
-                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Decision detail</p>
-                  <span className="text-xs font-medium px-2 py-0.5 rounded-full border bg-indigo-50 text-indigo-700 border-indigo-100">Decided</span>
+                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Détail de la décision</p>
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-full border bg-indigo-50 text-indigo-700 border-indigo-100">Décidé</span>
                 </div>
-                <h4 className="text-sm font-bold text-neutral-900 leading-snug">Switch annual pricing for Enterprise</h4>
+                <h4 className="text-sm font-bold text-neutral-900 leading-snug">Passer à la tarification annuelle pour l&apos;Enterprise</h4>
                 <div>
-                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">Summary</p>
-                  <p className="text-xs text-neutral-600 leading-relaxed">Standardize annual pricing for Enterprise to reduce negotiation overhead and create a clearer offer.</p>
+                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">Résumé</p>
+                  <p className="text-xs text-neutral-600 leading-relaxed">Standardiser la tarification annuelle Enterprise pour réduire la charge de négociation et créer une offre plus claire.</p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">Why this decision</p>
-                  <p className="text-xs text-neutral-600 leading-relaxed">Teams were repeating the same pricing discussions across deals. Standardization improves clarity and saves time.</p>
+                  <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">Pourquoi cette décision</p>
+                  <p className="text-xs text-neutral-600 leading-relaxed">Les équipes répétaient les mêmes discussions tarifaires sur chaque deal. La standardisation améliore la clarté et fait gagner du temps.</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="bg-neutral-50 rounded-lg p-2.5">
-                    <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-0.5">Owner</p>
+                    <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-0.5">Responsable</p>
                     <p className="text-xs font-semibold text-neutral-900">Nina Patel</p>
                   </div>
                   <div className="bg-amber-50 border border-amber-100 rounded-lg p-2.5">
-                    <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-0.5">Review date</p>
-                    <p className="text-xs font-semibold text-amber-700">Apr 15, 2026</p>
+                    <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-0.5">Date de révision</p>
+                    <p className="text-xs font-semibold text-amber-700">15 avr. 2026</p>
                   </div>
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">Alternatives</p>
                   <div className="flex flex-wrap gap-1.5">
-                    {["Quarterly pricing", "Custom pricing"].map((a) => (
+                    {["Tarification trimestrielle", "Pricing custom"].map((a) => (
                       <span key={a} className="text-xs bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-md">{a}</span>
                     ))}
                   </div>
@@ -206,10 +206,10 @@ export function AppPreviewSection() {
               <div className="p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Review inbox</p>
-                    <p className="text-sm font-bold text-neutral-900">Needs attention</p>
+                    <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">File de révision</p>
+                    <p className="text-sm font-bold text-neutral-900">Nécessite attention</p>
                   </div>
-                  <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">See all</button>
+                  <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Voir tout</button>
                 </div>
                 <div className="space-y-2">
                   {reviewItems.map((item) => (
@@ -220,9 +220,9 @@ export function AppPreviewSection() {
                       </div>
                       <p className="text-xs text-neutral-500 leading-relaxed">{item.summary}</p>
                       <div className="flex gap-1.5">
-                        <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 rounded-lg px-2.5 py-1">Review now</button>
-                        <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Reschedule</button>
-                        <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Reopen</button>
+                        <button className="cursor-pointer text-xs font-medium text-white bg-neutral-900 rounded-lg px-2.5 py-1">Réviser</button>
+                        <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Reporter</button>
+                        <button className="cursor-pointer text-xs border border-neutral-200 rounded-lg px-2.5 py-1 text-neutral-600">Rouvrir</button>
                       </div>
                     </div>
                   ))}

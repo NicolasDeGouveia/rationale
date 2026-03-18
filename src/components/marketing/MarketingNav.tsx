@@ -16,17 +16,17 @@ export function MarketingNav() {
             </div>
           </Link>
           <nav className="hidden md:flex items-center gap-7 text-sm text-neutral-500">
-            <Link href="/#product" className="hover:text-neutral-900 transition-colors">Product</Link>
+            <Link href="/#product" className="hover:text-neutral-900 transition-colors">Produit</Link>
             <Link href="/#workflow" className="hover:text-neutral-900 transition-colors">Workflow</Link>
             <Link href="/#app" className="hover:text-neutral-900 transition-colors">App</Link>
-            <Link href="/pricing" className="hover:text-neutral-900 transition-colors">Pricing</Link>
+            <Link href="/pricing" className="hover:text-neutral-900 transition-colors">Tarifs</Link>
           </nav>
           <div className="flex items-center gap-2">
             <Link href="/login" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors px-3 py-1.5">
-              See demo
+              Voir la démo
             </Link>
             <Link href="/signup">
-              <Button size="sm" className="rounded-xl bg-neutral-900 text-white hover:bg-neutral-700">Join beta</Button>
+              <Button size="sm" className="rounded-xl bg-neutral-900 text-white hover:bg-neutral-700">Rejoindre la bêta</Button>
             </Link>
           </div>
         </div>

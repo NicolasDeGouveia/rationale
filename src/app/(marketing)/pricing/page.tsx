@@ -3,15 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardBody } from "@/components/ui/card";
 import { PLANS } from "@/lib/constants";
 
-export const metadata = { title: "Pricing — Rationale" };
+export const metadata = { title: "Tarifs — Rationale" };
 
 export default function PricingPage() {
   return (
     <main className="py-20">
       <div className="mx-auto max-w-4xl px-6">
         <div className="text-center mb-14">
-          <h1 className="text-4xl font-bold text-neutral-900 tracking-tight mb-3">Simple pricing</h1>
-          <p className="text-neutral-500">Start free. Upgrade when your team grows.</p>
+          <h1 className="text-4xl font-bold text-neutral-900 tracking-tight mb-3">Tarifs simples</h1>
+          <p className="text-neutral-500">Gratuit pour démarrer. Passez au Pro quand votre équipe grandit.</p>
         </div>
         <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {/* Free */}
@@ -28,7 +28,7 @@ export default function PricingPage() {
                 ))}
               </ul>
               <Link href="/signup" className="block">
-                <Button variant="secondary" className="w-full">Get started free</Button>
+                <Button variant="secondary" className="w-full">Commencer gratuitement</Button>
               </Link>
             </CardBody>
           </Card>
@@ -46,7 +46,7 @@ export default function PricingPage() {
                 ))}
               </ul>
               <Link href="/signup" className="block">
-                <Button className="w-full">Start free trial</Button>
+                <Button className="w-full">Démarrer l&apos;essai gratuit</Button>
               </Link>
             </CardBody>
           </Card>

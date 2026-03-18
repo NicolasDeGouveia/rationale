@@ -9,7 +9,7 @@ export function MarketingFooter() {
           <p className="text-xs text-neutral-500 mt-0.5">{APP_TAGLINE}</p>
         </div>
         <p className="text-xs text-neutral-400">
-          © {new Date().getFullYear()} {APP_NAME}. All rights reserved.
+          © {new Date().getFullYear()} {APP_NAME}. Tous droits réservés.
         </p>
       </div>
     </footer>
